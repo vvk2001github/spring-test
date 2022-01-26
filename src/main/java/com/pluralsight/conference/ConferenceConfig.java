@@ -28,11 +28,12 @@ public class ConferenceConfig implements WebMvcConfigurer {
     @Autowired
     private ApplicationContext applicationContext;
 
+    /*
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/WEB-INF/css/");
-    }
+    }*/
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
