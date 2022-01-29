@@ -35,4 +35,11 @@ public class LoginController {
             return "badpass";
         }
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginGet() throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        return "index";
+
+    }
 }
