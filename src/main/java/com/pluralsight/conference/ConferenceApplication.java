@@ -39,7 +39,6 @@ public class ConferenceApplication extends SpringBootServletInitializer {
 		this.profileManager.getActiveProfiles();
 		System.out.println(passwordEncoder.encode("demo"));
 		System.out.println(passwordEncoder.matches("demo", "5756bd2d655c6e5dffe7564f5e7dae18524419792d3cc7dca1e9f33d70227675aaa525bab556c968"));
-		System.out.println(passwordEncoder.matches("demo", "a31cab4bbcbc20ced7960fa24144e49e815683d6ab873ca0c8dc8da89a6de4de66b4cb823c37fb9706ccf33dfc37c2c97c77354bb090c0bf79d03443b56aeb7a"));
 	}
 
 
