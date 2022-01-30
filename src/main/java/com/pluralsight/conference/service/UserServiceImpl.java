@@ -3,7 +3,6 @@ package com.pluralsight.conference.service;
 import com.pluralsight.conference.model.User;
 import com.pluralsight.conference.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

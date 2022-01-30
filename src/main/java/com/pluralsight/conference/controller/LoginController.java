@@ -3,10 +3,6 @@ package com.pluralsight.conference.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
-
 @Controller
 public class LoginController {
 
