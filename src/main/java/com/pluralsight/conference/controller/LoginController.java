@@ -8,13 +8,15 @@ public class LoginController {
 
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "auth";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginGet() {
 
-        return "index";
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public String auth() {
+
+        return "auth";
 
     }
+
 }
