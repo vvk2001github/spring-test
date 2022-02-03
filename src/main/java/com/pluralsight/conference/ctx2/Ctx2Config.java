@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan("com.pluralsight.conference.ctx2")
-@PropertySource(value="classpath:ctx2-prod.properties")
+@PropertySource(value="classpath:ctx2-${spring.profiles.active}.properties")
 @EnableAutoConfiguration
 public class Ctx2Config {
     

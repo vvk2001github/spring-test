@@ -23,7 +23,7 @@ import java.util.Locale;
 
 @Configuration
 @ComponentScan("com.pluralsight.conference.ctx1")
-@PropertySource(value="classpath:ctx1-prod.properties")
+@PropertySource(value="classpath:ctx1-${spring.profiles.active}.properties")
 @EnableAutoConfiguration
 public class ConferenceConfig implements WebMvcConfigurer {
 
