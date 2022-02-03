@@ -10,6 +10,7 @@ import org.springframework.boot.WebApplicationType;
 
 
 import com.pluralsight.conference.ctx1.ConferenceConfig;
+import com.pluralsight.conference.ctx2.Ctx2Config;
 
 public class ConferenceApplication   {
 
@@ -25,6 +26,8 @@ public class ConferenceApplication   {
             .web(WebApplicationType.NONE)
             .child(ConferenceConfig.class)
             .web(WebApplicationType.SERVLET)
+			.sibling(Ctx2Config.class)
+			.web(WebApplicationType.SERVLET)
             .run(args);
 
 	}
