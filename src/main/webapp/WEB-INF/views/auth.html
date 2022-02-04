@@ -1,15 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-                      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" type="text/css" href="../../css/login.css" th:href="@{/css/login.css}"></link>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-</head>
+<head th:replace="navbar::pageTitle(strTitle = 'Auth')"></head>
 
 <body>
 <div id="login">
@@ -32,10 +24,10 @@
                             <label for="remember-me" class="text-info"><span th:text="#{login.rememberme}">Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
                             <input type="submit" name="submit" class="btn btn-info btn-md" value="Submit" th:value="#{login.submit}">
                         </div>
-                        <div id="register-link" class="text-right">
-                            <a href="#" class="text-info" th:text="#{login.registerhere}">Register here</a>
-                        </div>
                     </form>
+                    <div class="text-end">
+                        <a href="#" class="text-info me-4" th:text="#{login.registerhere}">Register here</a>
+                    </div>
                 </div>
             </div>
         </div>
