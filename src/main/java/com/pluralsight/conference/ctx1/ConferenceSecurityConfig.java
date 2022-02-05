@@ -1,7 +1,5 @@
 package com.pluralsight.conference.ctx1;
 
-import com.pluralsight.conference.core.service.UserServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 @Configuration
@@ -16,7 +15,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    public UserServiceImpl userService;
+    public UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,7 +44,7 @@ public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Setting Service to find User in the database.
         // And Setting PassswordEncoder
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 
     }
 

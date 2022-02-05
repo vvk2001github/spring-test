@@ -8,9 +8,8 @@ public class LoginController {
 
     @GetMapping("/")
     public String index() {
-        return "auth";
+        return "redirect:/auth";
     }
-
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public String auth() {

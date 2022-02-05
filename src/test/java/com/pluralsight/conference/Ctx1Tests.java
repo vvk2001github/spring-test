@@ -1,8 +1,6 @@
 package com.pluralsight.conference;
 
-import com.pluralsight.conference.core.CoreConfig;
-import com.pluralsight.conference.core.service.UserService;
-import com.pluralsight.conference.core.service.UserServiceImpl;
+import com.pluralsight.conference.ctx1.controller.LoginController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("prod")
-@ComponentScan({"com.pluralsight.conference.core"})
-@EnableAutoConfiguration
+@ComponentScan({"com.pluralsight.conference.ctx1"})
 @TestPropertySource("classpath:application.properties")
-class ConferenceApplicationTests {
+@EnableAutoConfiguration
+public class Ctx1Tests {
+
+    //LoginController loginController =new LoginController();
 
     @Autowired
-    UserService userService;
+    LoginController loginController;
 
     @Test
-    public void userServiceTest() throws Exception{
-        assertThat(userService).isInstanceOf(UserServiceImpl.class);
+    public void TestA() {
+        assertThat(loginController).isNotNull();
     }
 }

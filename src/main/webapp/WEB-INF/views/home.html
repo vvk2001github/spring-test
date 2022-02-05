@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
-<head th:replace="navbar::pageTitle(strTitle = 'Home')">
+<head th:replace="layout/navbar::pageTitle(strTitle = 'Home')">
     <meta charset="UTF-8">
     <title>Home Page</title>
 </head>
 <body>
-    <dev th:replace="navbar::navigation"></dev>
+    <dev th:replace="layout/navbar::navigation"></dev>
     <h1>Home Page</h1>
     <div th:utext="${principalName}"></div>
     <a th:href="@{/perform_logout}">Logout</a>
