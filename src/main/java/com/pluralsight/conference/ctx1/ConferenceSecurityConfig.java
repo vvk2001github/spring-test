@@ -29,9 +29,11 @@ public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .defaultSuccessUrl("/home", true)
                     .and()
-                .logout()
+                .logout().deleteCookies("JSESSIONID")
                 .logoutUrl("/perform_logout")
-                .permitAll();
+                .permitAll()
+                    .and()
+                .rememberMe().key("uniqueAndSecret");
     }
 
     @Bean
