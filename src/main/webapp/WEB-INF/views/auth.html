@@ -5,13 +5,13 @@
 
 <body>
 <div id="login">
-    <h3 class="text-center text-white pt-5">Login form</h3>
+    <h3 class="text-center text-white pt-5" th:text="#{auth.login.title}">Login form</h3>
     <div class="container">
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">
                     <form id="login-form" class="form" th:action="@{/perform_login}" method="post">
-                        <h3 class="text-center text-info">Login</h3>
+                        <h3 class="text-center text-info" th:text="#{auth.login}">Login</h3>
                         <div class="form-group">
                             <label for="username" class="text-info" th:text="#{login.username}">Username:</label><br>
                             <input type="text" name="username" id="username" class="form-control">
@@ -31,13 +31,26 @@
                 </div>
             </div>
         </div>
+
+        <div th:if="${param.logout}" id="logout-row" class="row justify-content-center align-items-center">
+            <div id="logout-column" class="col-md-6">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    You have been logged out!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${param.error}" id="wrong-pass" class="row justify-content-center align-items-center">
+            <div id="logout-column" class="col-md-6">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Invalid username and password.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
 </div>
 </body>
 </html>

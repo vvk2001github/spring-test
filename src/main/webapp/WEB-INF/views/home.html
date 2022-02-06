@@ -8,6 +8,6 @@
     <dev th:replace="layout/navbar::navigation"></dev>
     <h1>Home Page</h1>
     <div th:utext="${principalName}"></div>
-    <a th:href="@{/perform_logout}">Logout</a>
+    <a th:href="@{/perform_logout}" th:text="#{auth.logout}">Logout</a>
 </body>
 </html>

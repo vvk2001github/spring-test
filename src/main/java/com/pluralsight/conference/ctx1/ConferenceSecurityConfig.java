@@ -21,7 +21,7 @@ public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/", "/login").permitAll()
+                .antMatchers("/css/**", "/", "/auth/**").permitAll()
                 .anyRequest().authenticated()
                     .and()
                 .formLogin()
