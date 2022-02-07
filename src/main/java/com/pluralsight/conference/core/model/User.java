@@ -1,5 +1,6 @@
 package com.pluralsight.conference.core.model;
 
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -14,14 +15,9 @@ public class User {
 
     private String password;
 
-    public User() {
-        //
-    }
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+    @OneToMany
+    @JoinColumn(name = "userid")
+    private List<Exercise> exercises;
 
     public Long getId() {
         return id;
@@ -45,5 +41,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    public List<Exercise> getExercises() {
+        return this.exercises;
     }
 }

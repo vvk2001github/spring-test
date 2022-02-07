@@ -21,6 +21,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr th:each="exercise: ${exercises}">
+                        <td th:text="${exercise.id}" />
+                        <td th:text="${exercise.descr}" />
+                        <td th:text="${exercise.type}" />
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -1,6 +1,5 @@
 package com.pluralsight.conference;
 
-import com.pluralsight.conference.core.CoreConfig;
 import com.pluralsight.conference.core.service.UserService;
 import com.pluralsight.conference.core.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
