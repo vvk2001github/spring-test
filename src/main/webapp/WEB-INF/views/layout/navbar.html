@@ -21,7 +21,7 @@
             <a class="nav-link" th:attr="class=${#httpServletRequest.requestURI == '/ctx1/home' ? 'nav-link active' : 'nav-link'}" th:href="@{/home}" th:text="#{home.home}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:attr="class=${#httpServletRequest.requestURI == '/ctx1/exercises' ? 'nav-link active' : 'nav-link'}" th:href="@{/exercises}" th:text="#{home.exercises}">Exercises</a>
+            <a class="nav-link" th:attr="class=${#httpServletRequest.requestURI == '/ctx1/exercises/index' ? 'nav-link active' : 'nav-link'}" th:href="@{/exercises/index}" th:text="#{home.exercises}">Exercises</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{/workouts}" th:text="#{home.workouts}">Workouts</a>

@@ -10,10 +10,10 @@ import java.security.Principal;
 @Controller
 public class ExerciseController {
 
-    @GetMapping("/exercises")
-    public String exercises(HttpServletRequest request, Model model) {
+    @GetMapping("/exercises/index")
+    public String index(HttpServletRequest request, Model model) {
         Principal principal = request.getUserPrincipal();
         model.addAttribute("principalName", principal.getName());
-        return "exercises/exercises";
+        return "exercises/index";
     }
 }
