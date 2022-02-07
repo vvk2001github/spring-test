@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/navbar::pageTitle(strTitle = 'Exercises')">
+    <meta charset="UTF-8">
+    <title>Exercises Page</title>
+</head>
+<body>
+    <dev th:replace="layout/navbar::navigation"></dev>
+    <div class="container">
+        <div class="row">
+            <h1>Exercises Page</h1>
+        </div>
+
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
