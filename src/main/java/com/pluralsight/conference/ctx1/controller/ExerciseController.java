@@ -34,4 +34,10 @@ public class ExerciseController {
 
         return "exercises/index";
     }
+
+    @GetMapping("/exercises/create")
+    public String create(HttpServletRequest request, Model model) { 
+        model.addAttribute("principalName", request.getUserPrincipal().getName());
+        return "exercises/create";
+    }
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/navbar::pageTitle(strTitle = 'Exercises')">
+    <meta charset="UTF-8">
+    <title>Exercises Page</title>
+</head>
+<body>
+    <dev th:replace="layout/navbar::navigation"></dev>
+
+    <div class="container mt-2">
+        <div class="row">
+            <form action="@{/exercises/store}" method="post">
+                <h3>Добавить упражнение</h3>
+                <div th:replace="exercises/parts/form::form"></div>
+                <input type="submit" value="Добавить упражнение" class="btn btn-primary mt-2">
+            </form>
+        </div>
+    </div>
+</body>

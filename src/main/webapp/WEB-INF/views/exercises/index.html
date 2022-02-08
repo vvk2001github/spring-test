@@ -6,25 +6,31 @@
 </head>
 <body>
     <dev th:replace="layout/navbar::navigation"></dev>
-    <div class="container">
+    <div class="container mt-2">
         <div class="row">
-            <h1>Exercises Page</h1>
+            <div class="col-11"></div>
+            <div class="col-1"><a class="btn btn-primary" th:href="@{/exercises/create}" role="button"><i class="bi bi-plus-square"></i></a></div>
         </div>
 
         <div class="row">
-            <table class="table table-hover">
+            <table class="table table-hover table-sm">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Type</th>
+                        <th scope="col" style="display: none;">#</th>
+                        <th scope="col" class="col-9">Description</th>
+                        <th scope="col" class="col-2">Type</th>
+                        <th scope="col" class="col-1">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="exercise: ${exercises}">
-                        <td th:text="${exercise.id}" />
+                    <tr th:each="exercise: ${exercises}" class="align-middle">
+                        <td th:text="${exercise.id}"  style="display: none;"/>
                         <td th:text="${exercise.descr}" />
                         <td th:text="${exercise.type}" />
+                        <td>
+                            <a class="btn btn-primary" href="#" role="button"><i class="bi bi-pencil-square"></i></a>
+                            <a class="btn btn-danger" href="#" role="button"><i class="bi bi-x-square"></i></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
