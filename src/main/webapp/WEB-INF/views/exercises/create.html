@@ -9,7 +9,7 @@
 
     <div class="container mt-2">
         <div class="row">
-            <form action="@{/exercises/store}" method="post">
+            <form th:action="@{/exercises/store}" method="post" th:object="${exercise}">
                 <h3>Добавить упражнение</h3>
                 <div th:replace="exercises/parts/form::form"></div>
                 <input type="submit" value="Добавить упражнение" class="btn btn-primary mt-2">

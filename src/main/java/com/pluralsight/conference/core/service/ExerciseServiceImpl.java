@@ -19,4 +19,7 @@ public class ExerciseServiceImpl implements ExerciseService  {
         return exerciseRepository.findByUserid(userid);
     }
     
+    public Exercise save(Exercise exercise) {
+        return exerciseRepository.save(exercise);
+    }
 }

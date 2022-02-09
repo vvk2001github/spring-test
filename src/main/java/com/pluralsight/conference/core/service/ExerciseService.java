@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ExerciseService {
     List<Exercise> findByUserid(User userid);
+    public Exercise save(Exercise exercise);
 }

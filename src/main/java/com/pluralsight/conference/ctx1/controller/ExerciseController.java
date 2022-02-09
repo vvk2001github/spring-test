@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -43,13 +46,21 @@ public class ExerciseController {
     @GetMapping("/exercises/create")
     public String create(HttpServletRequest request, Model model) { 
         model.addAttribute("principalName", request.getUserPrincipal().getName());
+        model.addAttribute("exercise", new Exercise());
         return "exercises/create";
     }
 
-    @GetMapping("/exercises/store")
-    public String store(HttpServletRequest request, Model model) { 
-        model.addAttribute("principalName", request.getUserPrincipal().getName());
-        return "exercises/create";
+    @RequestMapping(value="/exercises/store", method=RequestMethod.POST)
+    public String store(HttpServletRequest request, Model model, @ModelAttribute Exercise exercise) {
+        
+        System.out.println(exercise.getDescr());
+        System.out.println(exercise.getType());
+
+        //SecurityContextHolder.getContext().getAuthentication
+        exercise.setUserid(userService.findFirstByUsername(request.getUserPrincipal().getName()));
+        this.exerciseService.save(exercise);
+        
+        return "redirect:/exercises/index";
     }
 
 }
