@@ -10,10 +10,12 @@ import java.security.Principal;
 @Controller
 public class HomeController {
 
+
     @GetMapping("/home")
     public String home(HttpServletRequest request, Model model) {
         Principal principal = request.getUserPrincipal();
         model.addAttribute("principalName", principal.getName());
+
         return "home";
     }
 }

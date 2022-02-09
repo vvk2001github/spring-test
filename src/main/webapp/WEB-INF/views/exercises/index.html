@@ -26,7 +26,7 @@
                     <tr th:each="exercise: ${exercises}" class="align-middle">
                         <td th:text="${exercise.id}"  style="display: none;"/>
                         <td th:text="${exercise.descr}" />
-                        <td th:text="${exercise.type}" />
+                        <td th:text="${helper.exTypeToString(exercise.type)}" />
                         <td>
                             <a class="btn btn-primary" href="#" role="button"><i class="bi bi-pencil-square"></i></a>
                             <a class="btn btn-danger" href="#" role="button"><i class="bi bi-x-square"></i></a>

@@ -12,6 +12,7 @@ import java.util.List;
 import com.pluralsight.conference.core.service.*;
 import com.pluralsight.conference.core.model.Exercise;
 import com.pluralsight.conference.core.model.User;
+import com.pluralsight.conference.ctx1.helpers.Helper;
 
 @Controller
 public class ExerciseController {
@@ -22,6 +23,9 @@ public class ExerciseController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    Helper helper;
+
     @GetMapping("/exercises/index")
     public String index(HttpServletRequest request, Model model) {
         Principal principal = request.getUserPrincipal();
@@ -31,6 +35,7 @@ public class ExerciseController {
 
         model.addAttribute("principalName", principal.getName());
         model.addAttribute("exercises", exercises);
+        model.addAttribute("helper", helper);
 
         return "exercises/index";
     }
@@ -40,4 +45,11 @@ public class ExerciseController {
         model.addAttribute("principalName", request.getUserPrincipal().getName());
         return "exercises/create";
     }
+
+    @GetMapping("/exercises/store")
+    public String store(HttpServletRequest request, Model model) { 
+        model.addAttribute("principalName", request.getUserPrincipal().getName());
+        return "exercises/create";
+    }
+
 }
