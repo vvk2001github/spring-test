@@ -1,8 +1,11 @@
 <div th:fragment="form">
 <div class="mb-2">
-    <label for="descr" class="ex_descr" th:text="#{exmessages.ExDescr}"></label>
-    <input th:field="*{descr}" name="descr" required  type="text" class="form-control" id="ex_descr" aria-describedby="ex_descr_help">
+    <label for="descr" th:text="#{exmessages.ExDescr}"></label>
+    <input th:field="*{descr}" name="descr" required  type="text" class="form-control" id="descr" aria-describedby="ex_descr_help">
     <div id="ex_descr_help" class="form-text">Введите название упражнения</div>
+</div>
+<div class="mb-2">
+    <p th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}">Name Error</p>
 </div>
 <div class="mb-2">
     <select th:field="*{type}" name="type" id="type" class="form-select" aria-label="Default select example">

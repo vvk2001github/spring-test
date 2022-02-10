@@ -1,6 +1,10 @@
 package com.pluralsight.conference.core.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "exercises")
@@ -10,8 +14,12 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
+    @Size(min=3, max=60, message = "Description`s lenght shoud be 3-60 symbols")
     private String descr;
 
+    @Min(0)
+    @Max(3)
     private Integer type;
 
     @ManyToOne
