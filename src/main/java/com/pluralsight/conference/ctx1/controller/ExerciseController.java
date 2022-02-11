@@ -32,14 +32,16 @@ public class ExerciseController {
     @Autowired
     Helper helper;
 
+    @ModelAttribute
+    public void addAddAtributes(HttpServletRequest request, Model model) {
+        model.addAttribute("principalName", request.getUserPrincipal().getName());
+    }
+
     @GetMapping("/exercises/index")
-    public String index(HttpServletRequest request, Model model) {
-        Principal principal = request.getUserPrincipal();
-        
-        User user = userService.findFirstByUsername(principal.getName());
+    public String index(Model model) {
+        User user = userService.findFirstByUsername(model.getAttribute("principalName").toString());
         List<Exercise> exercises = exerciseService.findByUserid(user);
 
-        model.addAttribute("principalName", principal.getName());
         model.addAttribute("exercises", exercises);
         model.addAttribute("helper", helper);
 
@@ -48,20 +50,19 @@ public class ExerciseController {
 
     @GetMapping("/exercises/create")
     public String create(HttpServletRequest request, Model model) { 
-        model.addAttribute("principalName", request.getUserPrincipal().getName());
         model.addAttribute("exercise", new Exercise());
         return "exercises/create";
     }
 
     @RequestMapping(value="/exercises/store", method=RequestMethod.POST)
-    public String store(HttpServletRequest request, @Valid @ModelAttribute Exercise exercise, BindingResult br) {
+    public String store(@Valid @ModelAttribute Exercise exercise, BindingResult br, Model model) {
         
         if(br.hasErrors())  
         {  
             return "exercises/create";  
         }  
         
-        exercise.setUserid(userService.findFirstByUsername(request.getUserPrincipal().getName()));
+        exercise.setUserid(userService.findFirstByUsername(model.getAttribute("principalName").toString()));
         this.exerciseService.save(exercise);
         
         return "redirect:/exercises/index";
