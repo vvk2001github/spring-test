@@ -28,7 +28,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/workouts}" th:text="#{home.workouts}">Workouts</a>
+            <a th:attr="class=${#strings.contains(#httpServletRequest.requestURI, 'workouts') ? 'nav-link active' : 'nav-link'}" th:href="@{/workouts/index}" th:text="#{home.workouts}">Workouts</a>
           </li>
           
   
