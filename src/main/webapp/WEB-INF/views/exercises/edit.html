@@ -5,11 +5,11 @@
     <title>Exercises Page</title>
 </head>
 <body>
-    <dev th:replace="layout/navbar::navigation"></dev>
+    <div th:replace="layout/navbar::navigation"></div>
 
     <div class="container mt-2">
         <div class="row">
-            <form th:action="@{/exercises/store}" method="post" th:object="${exercise}">
+            <form th:action="@{/exercises/update}" method="post" th:object="${exercise}">
                 <div th:each="err : ${#fields.errors('*')}" th:text="${err}" class="alert alert-warning alert-dismissible fade show" role="alert">
                     A simple warning alert—check it out!
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

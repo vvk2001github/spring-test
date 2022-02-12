@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.pluralsight.conference.core.repository.ExerciseRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService  {
@@ -15,8 +16,14 @@ public class ExerciseServiceImpl implements ExerciseService  {
     @Autowired
     ExerciseRepository exerciseRepository;
 
+    @Override
     public List<Exercise> findByUserid(User userid) {
         return exerciseRepository.findByUserid(userid);
+    }
+
+    @Override
+    public Optional<Exercise> findById(Long id) {
+        return exerciseRepository.findById(id);
     }
     
     public Exercise save(Exercise exercise) {

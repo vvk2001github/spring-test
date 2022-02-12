@@ -28,7 +28,7 @@
                         <td th:text="${exercise.descr}" />
                         <td th:text="${helper.exTypeToString(exercise.type)}" />
                         <td>
-                            <a class="btn btn-primary" href="#" role="button"><i class="bi bi-pencil-square"></i></a>
+                            <a class="btn btn-primary" th:href="@{/exercises/{id}/edit(id=${exercise.id})}" role="button"><i class="bi bi-pencil-square"></i></a>
                             <a class="btn btn-danger" href="#" role="button"><i class="bi bi-x-square"></i></a>
                         </td>
                     </tr>
