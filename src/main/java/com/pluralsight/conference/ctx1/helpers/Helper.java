@@ -1,5 +1,9 @@
 package com.pluralsight.conference.ctx1.helpers;
 
+import java.util.Comparator;
+
+import com.pluralsight.conference.core.model.Exercise;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -29,4 +33,7 @@ public class Helper {
     public String getLocalizedMsg(String msg) {
         return messageSource.getMessage(msg, null, LocaleContextHolder.getLocale());
     }
+
+    // Sort and Compare by Exercise.descr
+    public Comparator<Exercise> compareExByDescr = Comparator.comparing(Exercise::getDescr);
 }

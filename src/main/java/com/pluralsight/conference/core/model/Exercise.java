@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "exercises")
-public class Exercise implements Comparable<Exercise> {
+public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,12 +70,6 @@ public class Exercise implements Comparable<Exercise> {
 
     public void setWorkout(List<Workout> workouts) {
         this.workouts = workouts;
-    }
-
-    @Override
-    public int compareTo(Exercise arg0) {
-        
-        return this.descr.compareTo(arg0.descr);
     }
 
 }
