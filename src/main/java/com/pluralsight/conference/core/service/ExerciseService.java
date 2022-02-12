@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface ExerciseService {
     public Optional<Exercise> findById(Long id);
     List<Exercise> findByUserid(User userid);
+    List<Exercise> findByUseridOrderByDescrAsc(User userid);
     public Exercise save(Exercise exercise);
+    public void delete(Exercise exercise);
 }

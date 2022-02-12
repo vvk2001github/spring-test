@@ -7,6 +7,21 @@
 <body>
     <dev th:replace="layout/navbar::navigation"></dev>
     <div class="container mt-2">
+
+        <div th:if="${errors}" class="row">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div th:text="${success}">A simple warning alert—check it out!</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="row">
+            <div class="alert alert-success  alert-dismissible  fade show" role="alert">
+                <strong th:text="${success}">A simple warning alert—check it out!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-11"></div>
             <div class="col-1"><a class="btn btn-primary" th:href="@{/exercises/create}" role="button"><i class="bi bi-plus-square"></i></a></div>
@@ -29,7 +44,7 @@
                         <td th:text="${helper.exTypeToString(exercise.type)}" />
                         <td>
                             <a class="btn btn-primary" th:href="@{/exercises/{id}/edit(id=${exercise.id})}" role="button"><i class="bi bi-pencil-square"></i></a>
-                            <a class="btn btn-danger" href="#" role="button"><i class="bi bi-x-square"></i></a>
+                            <a class="btn btn-danger" th:href="@{/exercises/{id}/delete(id=${exercise.id})}" role="button"><i class="bi bi-x-square"></i></a>
                         </td>
                     </tr>
                 </tbody>

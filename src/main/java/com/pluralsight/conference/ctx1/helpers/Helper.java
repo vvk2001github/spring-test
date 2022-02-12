@@ -25,4 +25,8 @@ public class Helper {
                 return messageSource.getMessage("exmessages.TypeUndefined", null, LocaleContextHolder.getLocale());
         }
     }
+
+    public String getLocalizedMsg(String msg) {
+        return messageSource.getMessage(msg, null, LocaleContextHolder.getLocale());
+    }
 }

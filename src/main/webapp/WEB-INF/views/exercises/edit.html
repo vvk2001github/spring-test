@@ -9,14 +9,14 @@
 
     <div class="container mt-2">
         <div class="row">
-            <form th:action="@{/exercises/update}" method="post" th:object="${exercise}">
+            <form th:action="@{/exercises/{id}/update(id=${exercise.id})}" method="post" th:object="${exercise}">
                 <div th:each="err : ${#fields.errors('*')}" th:text="${err}" class="alert alert-warning alert-dismissible fade show" role="alert">
                     A simple warning alert—check it out!
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <h3>Добавить упражнение</h3>
+                <h3>Редактировать упражнение</h3>
                 <div th:replace="exercises/parts/form::form"></div>
-                <input type="submit" value="Добавить упражнение" class="btn btn-primary mt-2">
+                <input type="submit" value="Редактировать упражнение" class="btn btn-primary mt-2">
             </form>
         </div>
     </div>

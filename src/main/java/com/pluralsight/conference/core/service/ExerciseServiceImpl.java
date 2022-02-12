@@ -22,11 +22,22 @@ public class ExerciseServiceImpl implements ExerciseService  {
     }
 
     @Override
+    public List<Exercise> findByUseridOrderByDescrAsc(User userid) {
+        return exerciseRepository.findByUseridOrderByDescrAsc(userid);
+    }
+
+    @Override
     public Optional<Exercise> findById(Long id) {
         return exerciseRepository.findById(id);
     }
     
+    @Override
     public Exercise save(Exercise exercise) {
         return exerciseRepository.save(exercise);
+    }
+
+    @Override
+    public void delete(Exercise exercise) {
+        exerciseRepository.delete(exercise);
     }
 }
