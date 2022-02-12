@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
-    List<Exercise> findByUserid(User userid);
-    List<Exercise> findByUseridOrderByDescrAsc(User userid);
+    List<Exercise> findByUser(User user);
+    List<Exercise> findByUserOrderByDescrAsc(User user);
 
 }

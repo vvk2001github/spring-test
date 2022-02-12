@@ -42,7 +42,7 @@ public class ExerciseController {
     @GetMapping("/index")
     public String index(Model model) {
         User user = userService.findFirstByUsername(model.getAttribute("principalName").toString());
-        List<Exercise> exercises = exerciseService.findByUseridOrderByDescrAsc(user);
+        List<Exercise> exercises = exerciseService.findByUserOrderByDescrAsc(user);
 
         model.addAttribute("exercises", exercises);
         model.addAttribute("helper", helper);
@@ -64,7 +64,7 @@ public class ExerciseController {
             return "exercises/create";  
         }  
         
-        exercise.setUserid(userService.findFirstByUsername(model.getAttribute("principalName").toString()));
+        exercise.setUser(userService.findFirstByUsername(model.getAttribute("principalName").toString()));
         this.exerciseService.save(exercise);
         redirectAttrs.addFlashAttribute("success", helper.getLocalizedMsg("exmessages.successAdded"));
         return "redirect:/exercises/index";
@@ -75,7 +75,7 @@ public class ExerciseController {
         Exercise exercise = exerciseService.findById(Long.valueOf(id)).get();
         User currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());
 
-        if(!currentUser.getId().equals(exercise.getUserid().getId())) {
+        if(!currentUser.getId().equals(exercise.getUser().getId())) {
             redirectAttrs.addFlashAttribute("errors", helper.getLocalizedMsg("exmessage.cannotEditExercise"));
             return "redirect:/exercises/index";
         }
@@ -93,7 +93,7 @@ public class ExerciseController {
             return "exercises/edit";  
         }  
         
-        exercise.setUserid(userService.findFirstByUsername(model.getAttribute("principalName").toString()));
+        exercise.setUser(userService.findFirstByUsername(model.getAttribute("principalName").toString()));
         this.exerciseService.save(exercise);
         redirectAttrs.addFlashAttribute("success", helper.getLocalizedMsg("exmessages.successUpdated"));
         return "redirect:/exercises/index";
@@ -105,7 +105,7 @@ public class ExerciseController {
             .orElseThrow(() -> new IllegalArgumentException("Invalid exercise Id:" + id));
 
         User currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());        
-        if(!currentUser.getId().equals(exercise.getUserid().getId())) {
+        if(!currentUser.getId().equals(exercise.getUser().getId())) {
             redirectAttrs.addFlashAttribute("errors", helper.getLocalizedMsg("exmessages.cannotDeleteExercise"));
             return "redirect:/exercises/index";
         }

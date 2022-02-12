@@ -26,7 +26,7 @@ public class Exercise {
 
     @ManyToOne
     @JoinColumn(name="userid", nullable=false)
-    private User userid;
+    private User user;
 
     @OneToMany
     @JoinColumn(name = "exid")
@@ -56,12 +56,12 @@ public class Exercise {
         return this.type;
     }
     
-    public User getUserid() {
-        return this.userid;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setUserid(User userid) {
-        this.userid = userid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Workout> getWorkout() {

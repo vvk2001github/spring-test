@@ -45,7 +45,7 @@
                     <tr th:each="workout: ${workouts}" class="align-middle">
                         <td th:text="${workout.id}"  style="display: none;"/>
                         <td th:text="${workout.exid.descr}" />
-                        <td th:text="${workout.createdat}" />
+                        <td th:text="${#dates.format(workout.createdat, 'dd-MM-yyyy HH:mm')}" />
                         <td th:text="${workout.count1}" />
                         <td th:text="${workout.weight1}" />
                         <td th:text="${workout.count2}" />
@@ -55,6 +55,5 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </body>

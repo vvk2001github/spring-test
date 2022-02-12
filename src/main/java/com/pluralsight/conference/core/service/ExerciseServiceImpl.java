@@ -17,13 +17,13 @@ public class ExerciseServiceImpl implements ExerciseService  {
     ExerciseRepository exerciseRepository;
 
     @Override
-    public List<Exercise> findByUserid(User userid) {
-        return exerciseRepository.findByUserid(userid);
+    public List<Exercise> findByUser(User user) {
+        return exerciseRepository.findByUser(user);
     }
 
     @Override
-    public List<Exercise> findByUseridOrderByDescrAsc(User userid) {
-        return exerciseRepository.findByUseridOrderByDescrAsc(userid);
+    public List<Exercise> findByUserOrderByDescrAsc(User user) {
+        return exerciseRepository.findByUserOrderByDescrAsc(user);
     }
 
     @Override

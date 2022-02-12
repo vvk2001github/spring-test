@@ -48,7 +48,7 @@ public class WorkoutController {
     @GetMapping("/index")
     public String index(Model model) {
         User user = userService.findFirstByUsername(model.getAttribute("principalName").toString());
-        List<Workout> workouts = workoutRepository.getWorkoutsByUserid(user);
+        List<Workout> workouts = workoutRepository.getWorkoutsByUser(user);
 
         model.addAttribute("workouts", workouts);
 
@@ -80,7 +80,7 @@ public class WorkoutController {
         // Check that user is adding only his exercises
         Exercise exercise = workout.getExid();
         User currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());
-        if(!currentUser.getId().equals(exercise.getUserid().getId())) {
+        if(!currentUser.getId().equals(exercise.getUser().getId())) {
             redirectAttrs.addFlashAttribute("errors", helper.getLocalizedMsg("wxmessage.cannotAddExercise"));
             return "redirect:/workouts/index";
         }
