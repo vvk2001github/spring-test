@@ -1,5 +1,7 @@
 package com.pluralsight.conference.core.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -8,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "exercises")
-public class Exercise {
+public class Exercise implements Comparable<Exercise> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +27,10 @@ public class Exercise {
     @ManyToOne
     @JoinColumn(name="userid", nullable=false)
     private User userid;
+
+    @OneToMany
+    @JoinColumn(name = "exid")
+    private List<Workout> workouts;
 
     public Long getId() {
         return this.id;
@@ -57,4 +63,19 @@ public class Exercise {
     public void setUserid(User userid) {
         this.userid = userid;
     }
+
+    public List<Workout> getWorkout() {
+        return this.workouts;
+    }
+
+    public void setWorkout(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
+
+    @Override
+    public int compareTo(Exercise arg0) {
+        
+        return this.descr.compareTo(arg0.descr);
+    }
+
 }

@@ -7,3 +7,5 @@ Pagination Exercises, Workouts
 Language Switcher
 
 Localize Workouts Page
+
+Delete HttpServeltRequest from exercise/create
