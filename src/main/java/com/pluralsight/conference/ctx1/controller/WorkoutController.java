@@ -46,7 +46,12 @@ public class WorkoutController {
     }
 
     @GetMapping("/index")
-    public String index() {
+    public String index(Model model) {
+        User user = userService.findFirstByUsername(model.getAttribute("principalName").toString());
+        List<Workout> workouts = workoutRepository.getWorkoutsByUserid(user);
+
+        model.addAttribute("workouts", workouts);
+
         return "workouts/index";
     }
 

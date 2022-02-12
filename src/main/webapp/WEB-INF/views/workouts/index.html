@@ -32,16 +32,26 @@
                 <thead class="text-center">
                     <tr>
                         <th scope="col" style="display: none;">#</th>
-                        <th scope="col" class="col-3">Description</th>
+                        <th scope="col" class="col-3">Exercise</th>
                         <th scope="col" class="col-2">Date</th>
                         <th scope="col" class="col-1">Count 1</th>
                         <th scope="col" class="col-1">Weight 1</th>
                         <th scope="col" class="col-1">Count 2</th>
                         <th scope="col" class="col-1">Weight 1</th>
-                        <th scope="col" class="col-3">Comment</th>
+                        <th scope="col" class="col-3">Description</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr th:each="workout: ${workouts}" class="align-middle">
+                        <td th:text="${workout.id}"  style="display: none;"/>
+                        <td th:text="${workout.exid.descr}" />
+                        <td th:text="${workout.createdat}" />
+                        <td th:text="${workout.count1}" />
+                        <td th:text="${workout.weight1}" />
+                        <td th:text="${workout.count2}" />
+                        <td th:text="${workout.weight2}" />
+                        <td th:text="${workout.descr}" />
+                    </tr>
                 </tbody>
             </table>
         </div>
