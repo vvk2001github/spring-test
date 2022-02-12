@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/navbar::pageTitle(strTitle = 'Workouts')">
+    <meta charset="UTF-8">
+    <title>Exercises Page</title>
+</head>
+<body>
+    <div th:replace="layout/navbar::navigation"></div>
+    <div class="container-fluid mt-2">
+
+        <div th:if="${errors}" class="row">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div th:text="${success}">A simple warning alert—check it out!</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="row">
+            <div class="alert alert-success  alert-dismissible  fade show" role="alert">
+                <strong th:text="${success}">A simple warning alert—check it out!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-11"></div>
+            <div class="col-1"><a class="btn btn-primary" th:href="@{/workouts/create}" role="button"><i class="bi bi-plus-square"></i></a></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-hover table-sm">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col" style="display: none;">#</th>
+                        <th scope="col" class="col-3">Description</th>
+                        <th scope="col" class="col-2">Date</th>
+                        <th scope="col" class="col-1">Count 1</th>
+                        <th scope="col" class="col-1">Weight 1</th>
+                        <th scope="col" class="col-1">Count 2</th>
+                        <th scope="col" class="col-1">Weight 1</th>
+                        <th scope="col" class="col-3">Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
