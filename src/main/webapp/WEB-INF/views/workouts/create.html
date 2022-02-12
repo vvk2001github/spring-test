@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/navbar::pageTitle(strTitle = 'Workouts')">
+    <meta charset="UTF-8">
+    <title>Workouts Page</title>
+</head>
+<body>
+    <dev th:replace="layout/navbar::navigation"></dev>
+
+    <div class="container mt-2">
+        <div class="row">
+            <form th:action="@{/workouts/store}" method="post" th:object="${workout}">
+                <div th:each="err : ${#fields.errors('*')}" th:text="${err}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    A simple warning alert—check it out!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <h3>Добавить тренировку</h3>
+                <div th:replace="workouts/parts/form::form"></div>
+                <input type="submit" value="Добавить тренировку" class="btn btn-primary mt-2">
+            </form>
+        </div>
+    </div>
+</body>
