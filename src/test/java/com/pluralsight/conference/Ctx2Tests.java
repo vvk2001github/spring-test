@@ -34,6 +34,6 @@ public class Ctx2Tests {
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
         this.mockMvc.perform(get("/message")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Viktor")));
+                .andExpect(content().string(containsString("demo")));
     }
 }

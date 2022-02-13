@@ -1,5 +1,8 @@
 package com.pluralsight.conference.core.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -40,6 +43,7 @@ public class Workout {
 
     @ManyToOne
     @JoinColumn(name="exid", nullable=false)
+    @JsonBackReference
     private Exercise exid;
 
 

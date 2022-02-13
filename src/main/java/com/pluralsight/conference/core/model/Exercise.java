@@ -1,5 +1,9 @@
 package com.pluralsight.conference.core.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -10,6 +14,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "exercises")
+@JsonIgnoreProperties("exid")
 public class Exercise {
 
     @Id
@@ -26,6 +31,7 @@ public class Exercise {
 
     @ManyToOne
     @JoinColumn(name="userid", nullable=false)
+    @JsonBackReference
     private User user;
 
     @OneToMany
