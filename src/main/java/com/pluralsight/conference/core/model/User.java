@@ -19,7 +19,7 @@ public class User {
 
     private String password;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "userid")
     private List<Exercise> exercises;
 

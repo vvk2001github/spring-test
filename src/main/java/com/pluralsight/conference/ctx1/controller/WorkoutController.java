@@ -37,15 +37,17 @@ public class WorkoutController {
     @Autowired
     WorkoutRepository workoutRepository;
 
+    private User currentUser;
+
     @ModelAttribute
     public void addAddAtributes(HttpServletRequest request, Model model) {
         model.addAttribute("principalName", request.getUserPrincipal().getName());
+        currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());
     }
 
     @GetMapping("/index")
     public String index(Model model) {
-        User user = userService.findFirstByUsername(model.getAttribute("principalName").toString());
-        List<Workout> workouts = workoutRepository.getWorkoutsByUser(user);
+        List<Workout> workouts = workoutRepository.getWorkoutsByUser(currentUser);
 
         model.addAttribute("workouts", workouts);
 
@@ -56,9 +58,7 @@ public class WorkoutController {
     public String create(Model model) {
         Workout workout = new Workout();
 
-        User user = userService.findFirstByUsername(model.getAttribute("principalName").toString());
-
-        List<Exercise> exercises = user.getExercises();
+        List<Exercise> exercises = currentUser.getExercises();
         Collections.sort(exercises, helper.compareExByDescr);
         
         model.addAttribute("exercises", exercises);
@@ -76,7 +76,6 @@ public class WorkoutController {
 
         // Check that user is adding only his exercises
         Exercise exercise = workout.getExid();
-        User currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());
         if(!currentUser.getId().equals(exercise.getUser().getId())) {
             redirectAttrs.addFlashAttribute("errors", helper.getLocalizedMsg("wxmessage.cannotAddExercise"));
             return "redirect:/workouts/index";
@@ -87,12 +86,45 @@ public class WorkoutController {
         return "redirect:/workouts/index";
     }
 
+    @RequestMapping(value = "/{id}/edit")
+    public String edit(@PathVariable String id, Model model, RedirectAttributes redirectAttrs) {
+        Workout workout = workoutRepository.findById(Long.valueOf(id)).get();
+
+        if(!currentUser.getId().equals(workout.getExid().getUser().getId())) {
+            redirectAttrs.addFlashAttribute("errors", "You can not edit this workout");
+            return "redirect:/workouts/index";
+        }
+
+        List<Exercise> exercises = currentUser.getExercises();
+        model.addAttribute("exercises", exercises);
+        model.addAttribute("workout", workout);
+        return "workouts/edit";
+    }
+
+    @RequestMapping(value="/{id}/update", method=RequestMethod.POST)
+    public String update(@PathVariable Long id, RedirectAttributes redirectAttrs, @Valid @ModelAttribute Workout workout, BindingResult br, Model model) {
+
+        if(br.hasErrors())
+        {
+            workout.setId(id);
+            return "workouts/edit";
+        }
+
+        Exercise exercise = workout.getExid();
+        if(exercise.getType() == 0) {workout.setWeight1(0f); workout.setCount2(0); workout.setWeight2(0f);};
+        if(exercise.getType() == 1) {workout.setWeight1(0f); workout.setWeight2(0f);};
+        if(exercise.getType() == 2) {workout.setCount2(0); workout.setWeight2(0f);};
+
+        this.workoutRepository.save(workout);
+        redirectAttrs.addFlashAttribute("success", "The workout has been successfully modified.");
+        return "redirect:/workouts/index";
+    }
+
     @RequestMapping(value="/{id}/delete", method=RequestMethod.GET)
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttrs, Model model) {
         Workout workout = workoutRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid workout Id:" + id));
 
-        User currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());
         if(!currentUser.getId().equals(workout.getExid().getUser().getId())) {
             redirectAttrs.addFlashAttribute("errors", "You can not delete this workout");
             return "redirect:/workouts/index";

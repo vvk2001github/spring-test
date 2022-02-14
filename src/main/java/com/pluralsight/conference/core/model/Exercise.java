@@ -34,8 +34,8 @@ public class Exercise {
     @JsonBackReference
     private User user;
 
-    @OneToMany
-    @JoinColumn(name = "exid")
+    @OneToMany()
+    @JoinColumn(name = "exid", updatable = false)
     private List<Workout> workouts;
 
     public Long getId() {
