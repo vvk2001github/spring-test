@@ -13,32 +13,32 @@
 
     <div class="mb-2">
         <select th:field="*{exid}" name="exid" id="exid" class="form-select" aria-label="Default select example">
-            <option th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.descr}"></option>
+            <option th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.descr}"  th:attr="data-extype=${exercise.type}"></option>
         </select>
         <div id="exid_help" class="form-text">Выберите упражнение</div>
     </div>
 
-    <div class="mb-2">
+    <div id="divCount1" class="mb-2">
         <label for="count1">Count1</label>
-        <input th:field="*{count1}" name="count1"  type="text" class="form-control" id="count1" aria-describedby="count1_help">
+        <input th:field="*{count1}" name="count1"  type="number" class="form-control" id="count1" aria-describedby="count1_help">
         <div id="count1_help" class="form-text">Введите дату</div>
     </div>
 
-    <div class="mb-2">
+    <div id="divWeight1" class="mb-2">
         <label for="weight1">Weight1</label>
-        <input th:field="*{weight1}" name="weight1"  type="text" class="form-control" id="weight1" aria-describedby="weight1_help">
+        <input th:field="*{weight1}" name="weight1"  type="number" step="0.1" class="form-control" id="weight1" aria-describedby="weight1_help">
         <div id="weight1_help" class="form-text">Введите дату</div>
     </div>
 
-    <div class="mb-2">
+    <div id="divCount2" class="mb-2">
         <label for="count2">Count2</label>
-        <input th:field="*{count2}" name="count2"  type="text" class="form-control" id="count2" aria-describedby="count2_help">
+        <input th:field="*{count2}" name="count2"  type="number" class="form-control" id="count2" aria-describedby="count2_help">
         <div id="count2_help" class="form-text">Введите дату</div>
     </div>
 
-    <div class="mb-2">
+    <div id="divWeight2" class="mb-2">
         <label for="weight2">Weight2</label>
-        <input th:field="*{weight2}" name="weight2"  type="text" class="form-control" id="weight2" aria-describedby="weight2_help">
+        <input th:field="*{weight2}" name="weight2"  type="number" step="0.1" class="form-control" id="weight2" aria-describedby="weight2_help">
         <div id="weight2_help" class="form-text">Введите дату</div>
     </div>
 
