@@ -38,7 +38,7 @@ public class ExerciseServiceImpl implements ExerciseService  {
 
     @Override
     public List<Exercise> findByUserOrderByDescrAscPageable(User user, Integer page) {
-        return exerciseRepository.findByUserOrderByDescrAsc(user, PageRequest.of(page, coreHelper.paginationPageSize()));
+        return exerciseRepository.findByUserOrderByDescrAsc(user, PageRequest.of(page, Math.toIntExact(coreHelper.paginationPageSize())));
     };
 
     @Override

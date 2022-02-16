@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class CoreHelper {
 
-    public Integer paginationPageSize() {
-        return 3;
+    public Long paginationPageSize() {
+        return 3l;
     }
 
-    public Integer paginationRelativeLinksCount() {
-        return 2;
+    public Long paginationRelativeLinksCount() {
+        return 2l;
     }
 
 }

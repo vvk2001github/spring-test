@@ -48,20 +48,47 @@ public class ExerciseController {
         //pagination start
         Integer currentPage = 1;
         if(page.isPresent()) currentPage = page.get();
-        model.addAttribute("currentPage", currentPage);
-        System.out.println("ExerciseController Index: currentPage = " + currentPage.toString());
+        if(currentPage < 1) currentPage = 1;
 
-        Integer pageSize = coreHelper.paginationPageSize();
-        Integer pageLinksCount = coreHelper.paginationRelativeLinksCount();
+        Long pageSize = coreHelper.paginationPageSize();
+        Long pageLinksCount = coreHelper.paginationRelativeLinksCount();
         Long repoSize = exerciseService.countByUser(currentUser);
-        System.out.println("ExerciseController Index: countByUser = " + repoSize.toString());
 
         Long lastPage =( repoSize / pageSize ) + 1;
+        if(currentPage > lastPage) currentPage = Math.toIntExact(lastPage);
+
+        Long firstForPage = currentPage - pageLinksCount;
+        Long lastForPage = currentPage + pageLinksCount;
+
+        if(firstForPage < 1) {
+          lastForPage += 1-firstForPage;
+          firstForPage = 1l;
+        };
+
+        if(lastForPage > lastPage) {
+            firstForPage -= lastForPage - lastPage;
+            lastForPage = lastPage;
+        }
+
+        if(firstForPage < 1) firstForPage = 1l;
+
+        Long prevGroupPage = currentPage - ((coreHelper.paginationRelativeLinksCount() * 2) + 1);
+        Long nextGroupPage = currentPage + ((coreHelper.paginationRelativeLinksCount() * 2) + 1);
+
+        model.addAttribute("currentPage", currentPage);
         model.addAttribute("lastPage", lastPage);
+        model.addAttribute("firstForPage", firstForPage);
+        model.addAttribute("lastForPage", lastForPage);
+        model.addAttribute("prevGroupPage", prevGroupPage);
+        model.addAttribute("nextGroupPage", nextGroupPage);
         //pagination end
 
 
         //List<Exercise> exercises = exerciseService.findByUserOrderByDescrAsc(currentUser);
+        System.out.println("ExerciseController Index: currentPage = " + currentPage.toString());
+        System.out.println("ExerciseController Index: countByUser = " + repoSize.toString());
+        System.out.println("ExerciseController Index: firstForPage = " + firstForPage.toString());
+        System.out.println("ExerciseController Index: lastForPage = " + lastForPage.toString());
         List<Exercise> exercises = exerciseService.findByUserOrderByDescrAscPageable(currentUser, currentPage - 1);
 
         model.addAttribute("exercises", exercises);

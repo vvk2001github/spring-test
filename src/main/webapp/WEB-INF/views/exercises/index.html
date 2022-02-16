@@ -56,14 +56,14 @@
                     <li class="page-item">
                         <a th:href="@{/exercises/index(page=1)}" class="page-link"><i class="bi bi-skip-start"></i></a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link"><i class="bi bi-caret-left"></i></a>
+                    <li class="page-item" th:classappend="${prevGroupPage < 1 ? 'disabled' : ''}">
+                        <a class="page-link" th:href="@{/exercises/index(page=${prevGroupPage})}"><th:block th:if="${prevGroupPage} >= 1" th:text="${prevGroupPage}"></th:block><i class="bi bi-caret-left"></i></a>
                     </li>
-                    <li th:each="i : ${#numbers.sequence(1, 5)}" class="page-item" th:classappend="${i == currentPage ? 'active' : ''}">
-                        <a class="page-link" th:href="@{/exercises/index(page=${i})}" th:text="${i}">1</a>
+                    <li th:each="i : ${#numbers.sequence(firstForPage, lastForPage)}" class="page-item" th:classappend="${i == currentPage ? 'active' : ''}">
+                        <a class="page-link list-group-item-info" th:href="@{/exercises/index(page=${i})}" th:text="${i}">1</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#"><i class="bi bi-caret-right"></i></a>
+                    <li th:classappend="${nextGroupPage > lastPage ? 'disabled' : ''}" class="page-item">
+                        <a class="page-link" th:href="@{/exercises/index(page=${nextGroupPage})}"><i class="bi bi-caret-right"></i><th:block th:if="${nextGroupPage} <= ${lastPage}" th:text="${nextGroupPage}"></th:block></a>
                     </li>
                     <li class="page-item">
                         <a th:href="@{/exercises/index(page=${lastPage})}" class="page-link"><i class="bi bi-skip-end"></i></a>
