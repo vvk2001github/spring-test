@@ -55,6 +55,7 @@ public class ExerciseController {
         Long repoSize = exerciseService.countByUser(currentUser);
 
         Long lastPage =( repoSize / pageSize ) + 1;
+        if((repoSize % pageSize) == 0) lastPage -= 1;
         if(currentPage > lastPage) currentPage = Math.toIntExact(lastPage);
 
         Long firstForPage = currentPage - pageLinksCount;
@@ -86,7 +87,9 @@ public class ExerciseController {
 
         //List<Exercise> exercises = exerciseService.findByUserOrderByDescrAsc(currentUser);
         System.out.println("ExerciseController Index: currentPage = " + currentPage.toString());
-        System.out.println("ExerciseController Index: countByUser = " + repoSize.toString());
+        System.out.println("ExerciseController Index: repoSize = " + repoSize.toString());
+        System.out.println("ExerciseController Index: pageSize = " + pageSize.toString());
+        System.out.println("ExerciseController Index: lastPage = " + lastPage.toString());
         System.out.println("ExerciseController Index: firstForPage = " + firstForPage.toString());
         System.out.println("ExerciseController Index: lastForPage = " + lastForPage.toString());
         List<Exercise> exercises = exerciseService.findByUserOrderByDescrAscPageable(currentUser, currentPage - 1);
