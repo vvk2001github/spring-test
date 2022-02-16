@@ -5,7 +5,7 @@
     <title>Exercises Page</title>
 </head>
 <body>
-    <dev th:replace="layout/navbar::navigation"></dev>
+    <div th:replace="layout/navbar::navigation"></div>
     <div class="container-fluid mt-2">
 
         <div th:if="${errors}" class="row">
@@ -49,6 +49,27 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="row">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a th:href="@{/exercises/index(page=1)}" class="page-link"><i class="bi bi-skip-start"></i></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"><i class="bi bi-caret-left"></i></a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(1, 5)}" class="page-item" th:classappend="${i == currentPage ? 'active' : ''}">
+                        <a class="page-link" th:href="@{/exercises/index(page=${i})}" th:text="${i}">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#"><i class="bi bi-caret-right"></i></a>
+                    </li>
+                    <li class="page-item">
+                        <a th:href="@{/exercises/index(page=${lastPage})}" class="page-link"><i class="bi bi-skip-end"></i></a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </body>

@@ -1,20 +1,18 @@
 package com.pluralsight.conference.ctx1.controller;
 
+import com.pluralsight.conference.core.helpers.CoreHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.pluralsight.conference.core.service.*;
 import com.pluralsight.conference.core.model.Exercise;
@@ -24,6 +22,9 @@ import com.pluralsight.conference.ctx1.helpers.Helper;
 @Controller
 @RequestMapping("/exercises")
 public class ExerciseController {
+
+    @Autowired
+    CoreHelper coreHelper;
 
     @Autowired
     ExerciseService exerciseService;
@@ -43,8 +44,25 @@ public class ExerciseController {
     }
 
     @GetMapping("/index")
-    public String index(Model model) {
-        List<Exercise> exercises = exerciseService.findByUserOrderByDescrAsc(currentUser);
+    public String index(@RequestParam Optional<Integer> page, Model model) {
+        //pagination start
+        Integer currentPage = 1;
+        if(page.isPresent()) currentPage = page.get();
+        model.addAttribute("currentPage", currentPage);
+        System.out.println("ExerciseController Index: currentPage = " + currentPage.toString());
+
+        Integer pageSize = coreHelper.paginationPageSize();
+        Integer pageLinksCount = coreHelper.paginationRelativeLinksCount();
+        Long repoSize = exerciseService.countByUser(currentUser);
+        System.out.println("ExerciseController Index: countByUser = " + repoSize.toString());
+
+        Long lastPage =( repoSize / pageSize ) + 1;
+        model.addAttribute("lastPage", lastPage);
+        //pagination end
+
+
+        //List<Exercise> exercises = exerciseService.findByUserOrderByDescrAsc(currentUser);
+        List<Exercise> exercises = exerciseService.findByUserOrderByDescrAscPageable(currentUser, currentPage - 1);
 
         model.addAttribute("exercises", exercises);
         model.addAttribute("helper", helper);

@@ -15,6 +15,9 @@ public class Helper {
     @Autowired
     public MessageSource messageSource;
 
+    // Sort and Compare by Exercise.descr
+    public Comparator<Exercise> compareExByDescr = Comparator.comparing(Exercise::getDescr);
+
     public String exTypeToString(Integer t) {
         switch(t) {
             case 0:
@@ -33,7 +36,4 @@ public class Helper {
     public String getLocalizedMsg(String msg) {
         return messageSource.getMessage(msg, null, LocaleContextHolder.getLocale());
     }
-
-    // Sort and Compare by Exercise.descr
-    public Comparator<Exercise> compareExByDescr = Comparator.comparing(Exercise::getDescr);
 }
