@@ -1,6 +1,7 @@
 package com.pluralsight.conference.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "exercises")
 @JsonIgnoreProperties("exid")
+@JsonFilter("userFilter")
 public class Exercise {
 
     @Id
