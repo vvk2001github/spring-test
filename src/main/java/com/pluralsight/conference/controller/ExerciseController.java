@@ -1,6 +1,7 @@
-package com.pluralsight.conference.ctx1.controller;
+package com.pluralsight.conference.controller;
 
-import com.pluralsight.conference.core.helpers.CoreHelper;
+import com.pluralsight.conference.service.ExerciseService;
+import com.pluralsight.conference.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,17 +15,13 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-import com.pluralsight.conference.core.service.*;
-import com.pluralsight.conference.core.model.Exercise;
-import com.pluralsight.conference.core.model.User;
-import com.pluralsight.conference.ctx1.helpers.Helper;
+import com.pluralsight.conference.model.Exercise;
+import com.pluralsight.conference.model.User;
+import com.pluralsight.conference.helpers.Helper;
 
 @Controller
 @RequestMapping("/exercises")
 public class ExerciseController {
-
-    @Autowired
-    CoreHelper coreHelper;
 
     @Autowired
     ExerciseService exerciseService;
@@ -50,8 +47,8 @@ public class ExerciseController {
         if(page.isPresent()) currentPage = page.get();
         if(currentPage < 1) currentPage = 1;
 
-        Long pageSize = coreHelper.paginationPageSize();
-        Long pageLinksCount = coreHelper.paginationRelativeLinksCount();
+        Long pageSize = helper.paginationPageSize();
+        Long pageLinksCount = helper.paginationRelativeLinksCount();
         Long repoSize = exerciseService.countByUser(currentUser);
 
         Long lastPage =( repoSize / pageSize ) + 1;
@@ -73,8 +70,8 @@ public class ExerciseController {
 
         if(firstForPage < 1) firstForPage = 1l;
 
-        Long prevGroupPage = currentPage - ((coreHelper.paginationRelativeLinksCount() * 2) + 1);
-        Long nextGroupPage = currentPage + ((coreHelper.paginationRelativeLinksCount() * 2) + 1);
+        Long prevGroupPage = currentPage - ((helper.paginationRelativeLinksCount() * 2) + 1);
+        Long nextGroupPage = currentPage + ((helper.paginationRelativeLinksCount() * 2) + 1);
 
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("lastPage", lastPage);

@@ -1,7 +1,7 @@
-package com.pluralsight.conference.core.service;
+package com.pluralsight.conference.service;
 
-import com.pluralsight.conference.core.model.User;
-import com.pluralsight.conference.core.repository.UserRepository;
+import com.pluralsight.conference.model.User;
+import com.pluralsight.conference.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

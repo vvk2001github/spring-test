@@ -1,4 +1,4 @@
-package com.pluralsight.conference.ctx1.controller;
+package com.pluralsight.conference.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;

@@ -1,13 +1,13 @@
-package com.pluralsight.conference.core.service;
+package com.pluralsight.conference.service;
 
-import com.pluralsight.conference.core.helpers.CoreHelper;
-import com.pluralsight.conference.core.model.Exercise;
-import com.pluralsight.conference.core.model.User;
+import com.pluralsight.conference.helpers.Helper;
+import com.pluralsight.conference.model.Exercise;
+import com.pluralsight.conference.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import com.pluralsight.conference.core.repository.ExerciseRepository;
+import com.pluralsight.conference.repository.ExerciseRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class ExerciseServiceImpl implements ExerciseService  {
     ExerciseRepository exerciseRepository;
 
     @Autowired
-    CoreHelper coreHelper;
+    Helper helper;
 
     @Override
     public Long countByUser(User user) {
@@ -37,8 +37,13 @@ public class ExerciseServiceImpl implements ExerciseService  {
     }
 
     @Override
+    public List<Exercise> findByUserAndTypeOrderByDescrAsc(User user, Integer type) {
+        return exerciseRepository.findByUserAndTypeOrderByDescrAsc(user, type);
+    }
+
+    @Override
     public List<Exercise> findByUserOrderByDescrAscPageable(User user, Integer page) {
-        return exerciseRepository.findByUserOrderByDescrAsc(user, PageRequest.of(page, Math.toIntExact(coreHelper.paginationPageSize())));
+        return exerciseRepository.findByUserOrderByDescrAsc(user, PageRequest.of(page, Math.toIntExact(helper.paginationPageSize())));
     };
 
     @Override

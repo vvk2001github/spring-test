@@ -1,4 +1,4 @@
-package com.pluralsight.conference.ctx1;
+package com.pluralsight.conference;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -22,9 +22,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import java.util.Locale;
 
 @Configuration
-@ComponentScan("com.pluralsight.conference.ctx1")
-@PropertySource(value="classpath:ctx1-${spring.profiles.active}.properties")
-@EnableAutoConfiguration
 public class ConferenceConfig implements WebMvcConfigurer {
 
     @Autowired

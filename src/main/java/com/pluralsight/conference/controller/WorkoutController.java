@@ -1,4 +1,4 @@
-package com.pluralsight.conference.ctx1.controller;
+package com.pluralsight.conference.controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import com.pluralsight.conference.core.model.Exercise;
-import com.pluralsight.conference.core.model.User;
-import com.pluralsight.conference.core.model.Workout;
-import com.pluralsight.conference.core.repository.WorkoutRepository;
-import com.pluralsight.conference.core.service.ExerciseService;
-import com.pluralsight.conference.core.service.UserService;
-import com.pluralsight.conference.ctx1.helpers.Helper;
+import com.pluralsight.conference.model.Exercise;
+import com.pluralsight.conference.model.User;
+import com.pluralsight.conference.model.Workout;
+import com.pluralsight.conference.repository.WorkoutRepository;
+import com.pluralsight.conference.service.ExerciseService;
+import com.pluralsight.conference.service.UserService;
+import com.pluralsight.conference.helpers.Helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

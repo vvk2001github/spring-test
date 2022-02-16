@@ -1,16 +1,23 @@
-package com.pluralsight.conference.ctx1.helpers;
+package com.pluralsight.conference.helpers;
 
 import java.util.Comparator;
 
-import com.pluralsight.conference.core.model.Exercise;
+import com.pluralsight.conference.model.Exercise;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.MessageSource;
 
 @Component
 public class Helper {
+
+    @Value("${pagination.page.size:5}")
+    private Long pageSize;
+
+    @Value("${pagination.relativeLinks.Count:4}")
+    private Long relativeLinksCount;
     
     @Autowired
     public MessageSource messageSource;
@@ -36,4 +43,13 @@ public class Helper {
     public String getLocalizedMsg(String msg) {
         return messageSource.getMessage(msg, null, LocaleContextHolder.getLocale());
     }
+
+    public Long paginationPageSize() {
+        return this.pageSize;
+    }
+
+    public Long paginationRelativeLinksCount() {
+        return this.relativeLinksCount;
+    }
+
 }

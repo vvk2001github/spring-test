@@ -1,7 +1,6 @@
-package com.pluralsight.conference.core.model;
+package com.pluralsight.conference.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 import javax.persistence.*;

@@ -11,15 +11,15 @@
         <div class="row mt-2">
             <div class="col-2">
                 <select id="ex_type" name="ex_type">
-                    <option value="0">Without Weight</option>
-                    <option value="1">Separated Without Weight</option>
-                    <option value="2">With Weight</option>
-                    <option value="3">Separated With Weight</option>
+                    <option value="0" th:selected="${extype==0}">Without Weight</option>
+                    <option value="1" th:selected="${extype==1}">Separated Without Weight</option>
+                    <option value="2" th:selected="${extype==2}">With Weight</option>
+                    <option value="3" th:selected="${extype==3}">Separated With Weight</option>
                 </select>
             </div>
             <div class="col-2">
                 <select id="ex_id" name="ex_id">
-
+                    <option th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.descr}"></option>
                 </select>
             </div>
         </div>
@@ -68,32 +68,7 @@
         });
 
         $('#ex_type').change(function () {
-
-            $.ajaxSetup({
-                headers: {
-                    'Access-Control-Allow-Origin' : 'http://localhost:8080',
-                    'Access-Control-Allow-Credentials' : 'true',
-                    "Authorization" : "Basic " + btoa("demo:demo")
-                }
-            });
-
-            var ex_type = $(this).val();
-
-            $.ajax({
-                type:'POST',
-                url:'http://localhost:8081/ctx2/api/exercise/list',
-                data:{ex_type:ex_type},
-                success:function(data){
-                    $('#ex_id').empty();
-                    data.forEach(function (entry){
-                        $('#ex_id').append($('<option>', {
-                            value: entry.id,
-                            text: entry.descr
-                        }));
-                    });
-                }
-            });
-
+            window.location.href = '/home?extype=' + $(this).val();
         });
       </script>
 </body>

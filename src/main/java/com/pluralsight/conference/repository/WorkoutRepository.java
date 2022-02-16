@@ -1,9 +1,9 @@
-package com.pluralsight.conference.core.repository;
+package com.pluralsight.conference.repository;
 
 import java.util.List;
 
-import com.pluralsight.conference.core.model.User;
-import com.pluralsight.conference.core.model.Workout;
+import com.pluralsight.conference.model.User;
+import com.pluralsight.conference.model.Workout;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
