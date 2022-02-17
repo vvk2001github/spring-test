@@ -19,7 +19,7 @@
             </div>
             <div class="col-2">
                 <select id="ex_id" name="ex_id">
-                    <option th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.descr}"></option>
+                    //
                 </select>
             </div>
         </div>
@@ -32,7 +32,8 @@
 
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script th:src="@{/js/chart.min.js}"></script>
-    <script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
         const labels = [
           'January',
           'February',
@@ -65,11 +66,33 @@
                 document.getElementById('myChart'),
                 config
             );
+
+            // Click on ex_type option 0
+            $('#ex_type').val(0);
+            $('#ex_type').trigger('change');
         });
 
         $('#ex_type').change(function () {
-            window.location.href = '/home?extype=' + $(this).val();
+
+            var extype = $(this).val();
+
+            $.ajax({
+                type:'POST',
+                url:/*[[@{/int/exercisesbytype}]]*/ '/int/exercisesbytype',
+                data:{extype:extype},
+                success:function(data){
+                    $('#ex_id').empty();
+                    data.forEach(function (entry){
+                        $('#ex_id').append($('<option>', {
+                            value: entry.id,
+                            text: entry.descr
+                        }));
+                    });
+                }
+            });
+
         });
+        /*]]>*/
       </script>
 </body>
 </html>

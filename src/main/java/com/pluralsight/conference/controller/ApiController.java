@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class ApiController {
 
     @Autowired
@@ -27,18 +27,20 @@ public class ApiController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/user", method = RequestMethod.POST)
     public User getUser(HttpServletRequest request) {
         User currentUser = userService.findFirstByUsername(request.getUserPrincipal().getName());
         return currentUser;
     };
 
-    @RequestMapping(value = "/exercises", method = RequestMethod.POST)
-    public MappingJacksonValue getExercises(HttpServletRequest request) {
+    @RequestMapping(value = {"/api/exercisesbytype", "/int/exercisesbytype"}, method = RequestMethod.POST)
+    public MappingJacksonValue getExercisesByType(HttpServletRequest request, @RequestParam Integer extype) {
+
+        User currentUser = userService.findFirstByUsername(request.getUserPrincipal().getName());
+        List<Exercise> exerciseList = (List<Exercise>) exerciseRepository.findByUserAndTypeOrderByDescrAsc(currentUser, extype);
 
         SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("workout");
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
-        List<Exercise> exerciseList = (List<Exercise>) exerciseRepository.findAll();
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(exerciseList);
         mappingJacksonValue.setFilters(filterProvider);
 
