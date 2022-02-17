@@ -43,25 +43,25 @@
         function getAjaxExerciseByType() {
             var extype = $('#ex_type').val();
 
-            $.ajax({
+            return $.ajax({
                 type:'POST',
                 url:/*[[@{/int/exercisesbytype}]]*/ '/int/exercisesbytype',
                 data:{extype:extype},
-                success:function(data){
-                    $('#ex_id').empty();
-                    data.forEach(function (entry){
-                        $('#ex_id').append($('<option>', {
-                            value: entry.id,
-                            text: entry.descr
-                        }));
-                    });
-                }
             });
         };
 
         async function loadExerciseByType() {
             try {
+                $('#ex_id').empty();
+
                 const result = await getAjaxExerciseByType();
+
+                result.forEach(function(entry){
+                        $('#ex_id').append($('<option>', {
+                            value: entry.id,
+                            text: entry.descr
+                        }))}
+                    )
             } catch (error) {
                 console.log(error);
             }
@@ -106,25 +106,19 @@
 
         $('#ex_id').change(function () {
 
-            chartData = [];
-            chartLabels = [];
+
+
+            myChart.data.labels=[];
+            myChart.data.datasets.forEach((dataset) => {
+                dataset.data = [];
+            });
+
             loadExerciseData().then(function (res) {res.forEach(function (entity) {
-               chartData.push(entity.count1);
-               chartLabels.push(entity.createdat);
+                myChart.data.datasets[0].data.push(entity.count1);
+                myChart.data.labels.push(entity.createdat);
             })});
+            setTimeout(function() { myChart.update(); },1000);
 
-            myChart.data.labels.pop();
-            myChart.data.datasets.forEach((dataset) => {
-                dataset.data.pop();
-            });
-            myChart.update();
-
-            myChart.data.labels.push(chartLabels);
-            myChart.data.datasets.forEach((dataset) => {
-                dataset.data.push(chartData);
-            });
-            myChart.update();
-            console.log(myChart.data.labels)
         });
 
 
