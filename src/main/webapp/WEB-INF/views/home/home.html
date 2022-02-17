@@ -22,22 +22,15 @@
             </div>
         </div>
         <div class="row">
-            <div id="chart-container" class="chart-container" style="position: relative; height:40vh; width:80vw">
-                <canvas id="myChart"></canvas>
-            </div>
+            <div id="chart"></div>
         </div>
     </div>
 
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-    <script th:src="@{/js/chart.min.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
 
-        let myChart;
-
-        let chartLabels = [];
-
-        let chartData=[];
+        let chart;
 
         //START Load ex_id select
         function getAjaxExerciseByType() {
@@ -96,6 +89,17 @@
             // Click on ex_type option 0
             $('#ex_type').val(0);
             $('#ex_type').trigger('change');
+
+            chart = c3.generate({
+                bindto: '#chart',
+                data: {
+                    columns: [
+                        //['Пресс', 20, 10, 5, 20, 3],
+                    ]
+                }
+            });
+
+            //console.log(chart.columns);
         });
 
         $('#ex_type').change(function () {
@@ -106,51 +110,21 @@
 
         $('#ex_id').change(function () {
 
-
-
-            myChart.data.labels=[];
-            myChart.data.datasets.forEach((dataset) => {
-                dataset.data = [];
+            var newColumn = [];
+            newColumn.push($("#ex_id option:selected" ).text());
+            loadExerciseData().then(function (res) {
+                res.forEach((entity) => newColumn.push(entity.count1));
             });
+            console.log(newColumn);
 
-            loadExerciseData().then(function (res) {res.forEach(function (entity) {
-                myChart.data.datasets[0].data.push(entity.count1);
-                myChart.data.labels.push(entity.createdat);
-            })});
-            setTimeout(function() { myChart.update(); },1000);
-
+            setTimeout(function() {chart.load({
+                    columns: [
+                        newColumn,
+                    ]
+                }
+            )}, 500);
         });
 
-
-        const labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-        ];
-
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-        };
-
-        const config = {
-            type: 'line',
-            data: data,
-            options: {}
-        };
-
-        myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
         /*]]>*/
       </script>
 </body>
