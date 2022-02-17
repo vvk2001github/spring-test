@@ -59,22 +59,9 @@
           options: {}
         };
 
-        $(document).ready(function() {
-
-
-            const myChart = new Chart(
-                document.getElementById('myChart'),
-                config
-            );
-
-            // Click on ex_type option 0
-            $('#ex_type').val(0);
-            $('#ex_type').trigger('change');
-        });
-
-        $('#ex_type').change(function () {
-
-            var extype = $(this).val();
+        //START Load ex_id select
+        function getAjaxExerciseByType() {
+            var extype = $('#ex_type').val();
 
             $.ajax({
                 type:'POST',
@@ -90,6 +77,38 @@
                     });
                 }
             });
+        };
+
+        async function loadExerciseByType() {
+            try {
+                const result = await getAjaxExerciseByType();
+                console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        //END Load ex_id select
+
+        //Load chart data
+
+        //Load chart data
+
+        $(document).ready(function() {
+
+
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+
+            // Click on ex_type option 0
+            $('#ex_type').val(0);
+            $('#ex_type').trigger('change');
+        });
+
+        $('#ex_type').change(function () {
+
+            loadExerciseByType();
 
         });
         /*]]>*/

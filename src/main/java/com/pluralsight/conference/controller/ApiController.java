@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.pluralsight.conference.model.Exercise;
 import com.pluralsight.conference.model.User;
+import com.pluralsight.conference.model.Workout;
 import com.pluralsight.conference.repository.ExerciseRepository;
+import com.pluralsight.conference.repository.WorkoutRepository;
 import com.pluralsight.conference.service.ExerciseService;
 import com.pluralsight.conference.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ApiController {
@@ -26,6 +29,9 @@ public class ApiController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    WorkoutRepository workoutRepository;
 
     @RequestMapping(value = "/api/user", method = RequestMethod.POST)
     public User getUser(HttpServletRequest request) {
@@ -45,5 +51,23 @@ public class ApiController {
         mappingJacksonValue.setFilters(filterProvider);
 
         return mappingJacksonValue;
+    };
+
+    @RequestMapping(value = {"/api/workbyexercise", "/int/workbyexercise"}, method = RequestMethod.POST)
+    public MappingJacksonValue findAllByExercise(HttpServletRequest request, @RequestParam Integer exid) {
+
+        Optional<Exercise> exercise = exerciseRepository.findById(Long.valueOf(exid));
+
+        if (exercise.isPresent()) {
+            List<Workout> workouts = workoutRepository.findAllByExid(exercise.get());
+            SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept();
+            FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
+            MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(workouts);
+            mappingJacksonValue.setFilters(filterProvider);
+            return mappingJacksonValue;
+        } else {
+            return null;
+        }
+
     };
 }
