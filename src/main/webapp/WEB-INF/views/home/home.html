@@ -18,13 +18,11 @@
                 </select>
             </div>
             <div class="col-2">
-                <select id="ex_id" name="ex_id">
-                    //
-                </select>
+                <select id="ex_id" name="ex_id"></select>
             </div>
         </div>
         <div class="row">
-            <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <div id="chart-container" class="chart-container" style="position: relative; height:40vh; width:80vw">
                 <canvas id="myChart"></canvas>
             </div>
         </div>
@@ -34,30 +32,12 @@
     <script th:src="@{/js/chart.min.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const labels = [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-        ];
-      
-        const data = {
-          labels: labels,
-          datasets: [{
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
-          }]
-        };
-      
-        const config = {
-          type: 'line',
-          data: data,
-          options: {}
-        };
+
+        let myChart;
+
+        let chartLabels = [];
+
+        let chartData=[];
 
         //START Load ex_id select
         function getAjaxExerciseByType() {
@@ -82,7 +62,6 @@
         async function loadExerciseByType() {
             try {
                 const result = await getAjaxExerciseByType();
-                console.log(result);
             } catch (error) {
                 console.log(error);
             }
@@ -90,16 +69,29 @@
         //END Load ex_id select
 
         //Load chart data
+        function getExerciseData() {
+            let exid = $('#ex_id').val();
 
+            return $.ajax({
+                type:'POST',
+                url:/*[[@{/int/workbyexercise}]]*/ '/int/workbyexercise',
+                data:{exid:exid},
+            });
+
+
+        };
+
+        async function loadExerciseData() {
+            try {
+                let result = await getExerciseData();
+                return result;
+            } catch (error) {
+                console.log(error);
+            }
+        }
         //Load chart data
 
         $(document).ready(function() {
-
-
-            const myChart = new Chart(
-                document.getElementById('myChart'),
-                config
-            );
 
             // Click on ex_type option 0
             $('#ex_type').val(0);
@@ -111,6 +103,60 @@
             loadExerciseByType();
 
         });
+
+        $('#ex_id').change(function () {
+
+            chartData = [];
+            chartLabels = [];
+            loadExerciseData().then(function (res) {res.forEach(function (entity) {
+               chartData.push(entity.count1);
+               chartLabels.push(entity.createdat);
+            })});
+
+            myChart.data.labels.pop();
+            myChart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+            myChart.update();
+
+            myChart.data.labels.push(chartLabels);
+            myChart.data.datasets.forEach((dataset) => {
+                dataset.data.push(chartData);
+            });
+            myChart.update();
+            console.log(myChart.data.labels)
+        });
+
+
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [0, 10, 5, 2, 20, 30, 45],
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
         /*]]>*/
       </script>
 </body>

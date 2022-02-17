@@ -59,7 +59,7 @@ public class ApiController {
         Optional<Exercise> exercise = exerciseRepository.findById(Long.valueOf(exid));
 
         if (exercise.isPresent()) {
-            List<Workout> workouts = workoutRepository.findAllByExid(exercise.get());
+            List<Workout> workouts = workoutRepository.findAllByExidOrderByCreatedatAsc(exercise.get());
             SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept();
             FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
             MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(workouts);

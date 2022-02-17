@@ -17,5 +17,5 @@ public interface WorkoutRepository extends CrudRepository<Workout, Long> {
     @Query("SELECT w FROM Workout w JOIN Exercise e ON w.exid=e.id WHERE e.user = :authuser ORDER BY w.createdat DESC")
     List<Workout> getWorkoutsByUser(@Param("authuser")User user);
 
-    List<Workout> findAllByExid(Exercise exercise);
+    List<Workout> findAllByExidOrderByCreatedatAsc(Exercise exercise);
 }
