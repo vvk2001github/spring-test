@@ -8,6 +8,4 @@ Localize Workouts Page
 
 Delete HttpServeltRequest from exercise/create
 
-CSRF
-
-DateTimer cool input
+CSRF (Workout уже есть???)

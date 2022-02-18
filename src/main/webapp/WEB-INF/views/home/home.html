@@ -34,7 +34,7 @@
         let chartData = {
             labels: [],
             datasets: [{
-                label: 'My First dataset',
+                label: 'Count',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: [],
@@ -86,7 +86,6 @@
             $('#ex_type').val(0);
             $('#ex_type').trigger('change');
 
-            //console.log(chart.columns);
         });
 
         $('#ex_type').change(function () {
@@ -108,14 +107,13 @@
             getExerciseData().then(
                 (result) => {result.forEach(
                     (entity) => {
-                        myChart.data.labels.push(entity.createdat);
+                        myChart.data.labels.push(moment(entity.createdat).format('YYYY-MMMM-DD'));
                         myChart.data.datasets[0].data.push(entity.count1);
                         }
                     );
                     myChart.update();
                 }
             );
-            //setTimeout(myChart.update(), 1000);
         });
 
         /*]]>*/
