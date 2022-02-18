@@ -1,11 +1,13 @@
-Validator Form !!!!
-
 Переделать метод Store с установкой и проверкой всех полей
 
-Pagination Exercises, Workouts
+Pagination Workouts
 
 Language Switcher
 
 Localize Workouts Page
 
 Delete HttpServeltRequest from exercise/create
+
+CSRF
+
+DateTimer cool input
