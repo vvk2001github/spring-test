@@ -37,7 +37,7 @@ public class ConferenceSecurityConfig  {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable()
+            http
                     .authorizeRequests()
                     .antMatchers("/css/**", "/", "/auth/**").permitAll()
                     .anyRequest().authenticated()

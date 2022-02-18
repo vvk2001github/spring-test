@@ -30,6 +30,8 @@
 
     <script th:inline="javascript">
         /*<![CDATA[*/
+        let token = $("meta[name='_csrf']").attr("content");
+        let headerToken = $("meta[name='_csrf_header']").attr("content");
 
         let chartData = {
             labels: [],
@@ -56,6 +58,9 @@
 
             return $.ajax({
                 type:'POST',
+                beforeSend: function(request) {
+                    request.setRequestHeader(headerToken, token);
+                },
                 url:/*[[@{/int/exercisesbytype}]]*/ '/int/exercisesbytype',
                 data:{extype:extype},
             });
@@ -69,6 +74,9 @@
 
             return $.ajax({
                 type:'POST',
+                beforeSend: function(request) {
+                    request.setRequestHeader(headerToken, token);
+                },
                 url:/*[[@{/int/workbyexercise}]]*/ '/int/workbyexercise',
                 data:{exid:exid},
             });
