@@ -1,11 +1,6 @@
-Переделать метод Store с установкой и проверкой всех полей
-
 Pagination Workouts
 
 Language Switcher
 
 Localize Workouts Page
 
-Delete HttpServeltRequest from exercise/create
-
-Поделить <head> на части <th:block>

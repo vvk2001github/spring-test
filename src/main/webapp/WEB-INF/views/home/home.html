@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/navbar::pageTitle(strTitle = 'Home')">
-    <meta charset="UTF-8">
-    <title>Home Page</title>
+<head>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <th:block th:replace="layout/navbar::pageTitle"></th:block>
+    <script th:src="@{/js/chart.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Home</title>
 </head>
 <body>
     <div th:replace="layout/navbar::navigation"></div>

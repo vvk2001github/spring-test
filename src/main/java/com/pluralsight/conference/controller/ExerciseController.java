@@ -98,7 +98,7 @@ public class ExerciseController {
     }
 
     @GetMapping("/create")
-    public String create(HttpServletRequest request, Model model) { 
+    public String create(Model model) {
         model.addAttribute("exercise", new Exercise());
         return "exercises/create";
     }

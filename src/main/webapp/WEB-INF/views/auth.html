@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout/navbar::pageTitle(strTitle = 'Auth')"></head>
+<head>
+    <th:block th:replace="layout/navbar::pageTitle"></th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+    <title>Auth</title>
+</head>
 
 <body>
 <div id="login">
