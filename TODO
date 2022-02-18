@@ -8,4 +8,4 @@ Localize Workouts Page
 
 Delete HttpServeltRequest from exercise/create
 
-CSRF (Workout уже есть???)
+Поделить <head> на части <th:block>
