@@ -39,7 +39,7 @@ public class ConferenceSecurityConfig  {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/css/**", "/", "/auth/**").permitAll()
+                    .antMatchers("/css/**", "/", "/auth/**", "/language").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
