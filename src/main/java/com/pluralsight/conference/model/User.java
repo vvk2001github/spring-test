@@ -1,5 +1,6 @@
 package com.pluralsight.conference.model;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties("user")
+@JsonFilter("userFilter")
 public class User {
 
     @Id

@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -16,20 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
 
-    @Override
-    public User findFirstByUsername(String userName) {
-        return userRepository.findFirstByUsername(userName);
-    }
-
-    @PostConstruct
-    public void start() {
-        System.out.println("UserService profile PROD");
-    }
+    @Autowired
+    Pbkdf2PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -48,5 +42,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return userDetails;
 
+    }
+
+    public User findByUsernameAndPassword(String username, String password) {
+        User user = userRepository.findFirstByUsername(username);
+        if(user != null ) {
+            if(passwordEncoder.matches(password, user.getPassword())) {
+                return user;
+            }
+        }
+        return null;
     }
 }

@@ -3,19 +3,20 @@ package com.pluralsight.conference.controller;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.pluralsight.conference.helpers.AuthRequest;
+import com.pluralsight.conference.helpers.AuthResponse;
+import com.pluralsight.conference.helpers.JwtHelper;
 import com.pluralsight.conference.model.Exercise;
 import com.pluralsight.conference.model.User;
 import com.pluralsight.conference.model.Workout;
 import com.pluralsight.conference.repository.ExerciseRepository;
+import com.pluralsight.conference.repository.UserRepository;
 import com.pluralsight.conference.repository.WorkoutRepository;
-import com.pluralsight.conference.service.ExerciseService;
-import com.pluralsight.conference.service.UserService;
+import com.pluralsight.conference.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,25 +29,49 @@ public class ApiController {
     ExerciseRepository exerciseRepository;
 
     @Autowired
-    UserService userService;
+    JwtHelper jwtHelper;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserServiceImpl userDetailsService;
 
     @Autowired
     WorkoutRepository workoutRepository;
 
+    @RequestMapping(value = {"/api/auth"}, method = RequestMethod.POST)
+    public AuthResponse auth(@RequestBody AuthRequest request) {
+        System.out.println("API AUTH!!!!");
+        System.out.println(request.getLogin());
+        System.out.println(request.getPassword());
+        User user = userDetailsService.findByUsernameAndPassword(request.getLogin(), request.getPassword());
+        String token = jwtHelper.generateToken(user.getUsername());
+
+        return new AuthResponse(token);
+    }
+
     @RequestMapping(value = "/api/user", method = RequestMethod.POST)
-    public User getUser(HttpServletRequest request) {
-        User currentUser = userService.findFirstByUsername(request.getUserPrincipal().getName());
-        return currentUser;
+    public MappingJacksonValue getUser(HttpServletRequest request) {
+        User currentUser = userRepository.findFirstByUsername(request.getUserPrincipal().getName());
+
+        SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("exercises", "password");
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(currentUser);
+        mappingJacksonValue.setFilters(filterProvider);
+
+
+        return mappingJacksonValue;
     };
 
     @RequestMapping(value = {"/api/exercisesbytype", "/int/exercisesbytype"}, method = RequestMethod.POST)
     public MappingJacksonValue getExercisesByType(HttpServletRequest request, @RequestParam Integer extype) {
 
-        User currentUser = userService.findFirstByUsername(request.getUserPrincipal().getName());
+        User currentUser = userRepository.findFirstByUsername(request.getUserPrincipal().getName());
         List<Exercise> exerciseList = (List<Exercise>) exerciseRepository.findByUserAndTypeOrderByDescrAsc(currentUser, extype);
 
         SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("workout");
-        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("exFilter", simpleBeanPropertyFilter);
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(exerciseList);
         mappingJacksonValue.setFilters(filterProvider);
 
@@ -61,7 +86,7 @@ public class ApiController {
         if (exercise.isPresent()) {
             List<Workout> workouts = workoutRepository.findAllByExidOrderByCreatedatAsc(exercise.get());
             SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept();
-            FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
+            FilterProvider filterProvider = new SimpleFilterProvider().addFilter("exFilter", simpleBeanPropertyFilter);
             MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(workouts);
             mappingJacksonValue.setFilters(filterProvider);
             return mappingJacksonValue;

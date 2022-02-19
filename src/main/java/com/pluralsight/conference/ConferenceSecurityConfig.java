@@ -1,5 +1,6 @@
 package com.pluralsight.conference;
 
+import com.pluralsight.conference.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,13 +24,20 @@ public class ConferenceSecurityConfig  {
     @Configuration
     @Order(1)
     public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-        protected void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/api/**").csrf().disable()
-                    .authorizeRequests().anyRequest().authenticated()
-                    .and()
-                    .httpBasic();
 
-            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+        @Autowired
+        private JwtFilter jwtFilter;
+
+        protected void configure(HttpSecurity http) throws Exception {
+            http.antMatcher("/api/**").httpBasic().disable().csrf().disable()
+                            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                            .and()
+                                    .authorizeRequests()
+                                            .antMatchers("/api/auth").permitAll()
+                            .and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+
+            //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
         }
     }
 

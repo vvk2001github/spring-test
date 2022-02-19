@@ -9,9 +9,9 @@ import javax.validation.Valid;
 import com.pluralsight.conference.model.Exercise;
 import com.pluralsight.conference.model.User;
 import com.pluralsight.conference.model.Workout;
+import com.pluralsight.conference.repository.UserRepository;
 import com.pluralsight.conference.repository.WorkoutRepository;
 import com.pluralsight.conference.service.ExerciseService;
-import com.pluralsight.conference.service.UserService;
 import com.pluralsight.conference.helpers.Helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,10 @@ public class WorkoutController {
     ExerciseService exerciseService;
 
     @Autowired
-    UserService userService;
+    Helper helper;
 
     @Autowired
-    Helper helper;
+    UserRepository userRepository;
 
     @Autowired
     WorkoutRepository workoutRepository;
@@ -42,7 +42,7 @@ public class WorkoutController {
     @ModelAttribute
     public void addAddAtributes(HttpServletRequest request, Model model) {
         model.addAttribute("principalName", request.getUserPrincipal().getName());
-        currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());
+        currentUser = userRepository.findFirstByUsername(model.getAttribute("principalName").toString());
     }
 
     @GetMapping("/index")

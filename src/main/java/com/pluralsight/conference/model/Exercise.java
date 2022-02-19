@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "exercises")
 @JsonIgnoreProperties("exid")
-@JsonFilter("userFilter")
+@JsonFilter("exFilter")
 public class Exercise {
 
     @Id

@@ -1,7 +1,7 @@
 package com.pluralsight.conference.controller;
 
+import com.pluralsight.conference.repository.UserRepository;
 import com.pluralsight.conference.service.ExerciseService;
-import com.pluralsight.conference.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ public class ExerciseController {
     ExerciseService exerciseService;
 
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
 
     @Autowired
     Helper helper;
@@ -37,7 +37,7 @@ public class ExerciseController {
     @ModelAttribute
     public void addAddAtributes(HttpServletRequest request, Model model) {
         model.addAttribute("principalName", request.getUserPrincipal().getName());
-        currentUser = userService.findFirstByUsername(model.getAttribute("principalName").toString());
+        currentUser = userRepository.findFirstByUsername(model.getAttribute("principalName").toString());
     }
 
     @GetMapping("/index")
