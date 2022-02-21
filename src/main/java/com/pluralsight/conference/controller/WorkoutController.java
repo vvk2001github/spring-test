@@ -1,14 +1,21 @@
 package com.pluralsight.conference.controller;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.pluralsight.conference.model.Exercise;
 import com.pluralsight.conference.model.User;
 import com.pluralsight.conference.model.Workout;
+import com.pluralsight.conference.repository.ExerciseRepository;
 import com.pluralsight.conference.repository.UserRepository;
 import com.pluralsight.conference.repository.WorkoutRepository;
 import com.pluralsight.conference.service.ExerciseService;
@@ -25,8 +32,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/workouts")
 public class WorkoutController {
 
+    @PersistenceContext
+    EntityManager entityManager;
+
     @Autowired
     ExerciseService exerciseService;
+
+    @Autowired
+    ExerciseRepository exerciseRepository;
 
     @Autowired
     Helper helper;
@@ -46,10 +59,49 @@ public class WorkoutController {
     }
 
     @GetMapping("/index")
-    public String index(Model model) {
-        List<Workout> workouts = workoutRepository.getWorkoutsByUser(currentUser);
+    public String index(@RequestParam Optional<Integer> fltExercise, @RequestParam Optional<Integer> srtDate, Model model) {
 
+        //List<Workout> workouts = null;
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Workout> cq = cb.createQuery(Workout.class);
+        Root<Workout> workoutRoot = cq.from(Workout.class);
+
+        cq.where(cb.equal(workoutRoot.get("exid").get("user"), currentUser));
+
+
+        Integer _fltExercise = 0;
+
+        if(fltExercise.isPresent()) {
+            if(fltExercise.get() > 0 ) {
+                _fltExercise = fltExercise.get();
+                cq.where(cb.equal(workoutRoot.get("exid"), _fltExercise));
+
+            }
+        }
+
+        Integer _srtDate = 0;
+        if(srtDate.isPresent() && srtDate.get() == 1) _srtDate = 1;
+
+        if(_srtDate == 1) {
+                cq.orderBy(cb.asc(workoutRoot.get("createdat")));
+            } else {
+                cq.orderBy(cb.desc(workoutRoot.get("createdat")));
+            }
+
+
+        TypedQuery<Workout> query = entityManager.createQuery(cq);
+        List<Workout> workouts = query.getResultList();
+
+        //Should be deleted
+        //workouts = workoutRepository.getWorkoutsByUser(currentUser);
+
+        //Get all the exercises that were used in the workouts.
+        List<Exercise> usedExercises = exerciseRepository.getUsedExercises(currentUser);
+
+        model.addAttribute("srtDate", _srtDate);
+        model.addAttribute("fltExercise", _fltExercise);
         model.addAttribute("workouts", workouts);
+        model.addAttribute("usedExercises", usedExercises);
 
         return "workouts/index";
     }

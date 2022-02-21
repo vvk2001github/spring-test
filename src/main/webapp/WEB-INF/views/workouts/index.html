@@ -46,6 +46,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td>
+                            <select id="fltExercise">
+                                <option value="0">All</option>
+                                <option th:each="usedExercise : ${usedExercises}" th:value="${usedExercise.id}" th:text="${usedExercise.descr}" th:selected="${usedExercise.id==fltExercise}">
+                            </select>
+                        </td>
+                        <td class="text-center"><i class="bi bi-sort-down"></i>
+                        </td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
                     <tr th:each="workout: ${workouts}" class="align-middle">
                         <td th:text="${workout.id}"  style="display: none;"/>
                         <td th:text="${workout.exid.descr}" />
@@ -64,4 +74,12 @@
             </table>
         </div>
     </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var srtDate = /*[[${srtDate}]]*/ '0';
+        $('#fltExercise').change(function () {
+            window.location.href = "/workouts/index?fltExercise=" + $(this).val() + "&srtDate=" + srtDate;
+        });
+        /*]]>*/
+    </script>
 </body>

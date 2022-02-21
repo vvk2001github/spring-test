@@ -15,7 +15,8 @@ public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
     List<Exercise> findByUserOrderByDescrAsc(User user);
     List<Exercise> findByUserOrderByDescrAsc(User user, Pageable pageable);
 
-    //@Query("SELECT e FROM Exercise e WHERE (e.user = :authuser)and(e.type = :type) ORDER BY e.descr ASC")
-    //List<Exercise> findByUserAndByTypeOrderByDescr(@Param("authuser")User user, @Param("type")Integer type);
     List<Exercise> findByUserAndTypeOrderByDescrAsc(User user, Integer type);
+
+    @Query("SELECT DISTINCT w.exid FROM Workout w WHERE w.exid.user = :authuser ORDER BY w.exid.descr")
+    List<Exercise> getUsedExercises(@Param("authuser")User user);
 }
