@@ -15,7 +15,6 @@ import com.pluralsight.conference.repository.WorkoutRepository;
 import com.pluralsight.conference.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,9 +41,6 @@ public class ApiController {
 
     @RequestMapping(value = {"/api/auth"}, method = RequestMethod.POST)
     public AuthResponse auth(@RequestBody AuthRequest request) {
-        System.out.println("API AUTH!!!!");
-        System.out.println(request.getLogin());
-        System.out.println(request.getPassword());
         User user = userDetailsService.findByUsernameAndPassword(request.getLogin(), request.getPassword());
         String token = jwtHelper.generateToken(user.getUsername());
 

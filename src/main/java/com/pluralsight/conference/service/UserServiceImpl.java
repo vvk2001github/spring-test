@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +36,9 @@ public class UserServiceImpl implements UserDetailsService {
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
         grantList.add(authority);
+
+        // !!!!! Has to be deleted !!!!
+        if(user.getUsername().equals("demo")) grantList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
         UserDetails userDetails = (UserDetails)new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantList);
 
