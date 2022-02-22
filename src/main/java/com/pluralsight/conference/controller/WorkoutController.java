@@ -59,9 +59,9 @@ public class WorkoutController {
     }
 
     @GetMapping("/index")
-    public String index(@RequestParam Optional<Integer> fltExercise, @RequestParam Optional<Integer> srtDate, Model model) {
+    public String index(@RequestParam Optional<Integer> fltExercise, @RequestParam Optional<Integer> srtDate, @RequestParam Optional<Integer> page,Model model) {
 
-        //List<Workout> workouts = null;
+
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Workout> cq = cb.createQuery(Workout.class);
         Root<Workout> workoutRoot = cq.from(Workout.class);
@@ -70,14 +70,59 @@ public class WorkoutController {
 
 
         Integer _fltExercise = 0;
+        Long repoSize = workoutRepository.countByUser(currentUser);
 
         if(fltExercise.isPresent()) {
             if(fltExercise.get() > 0 ) {
                 _fltExercise = fltExercise.get();
                 cq.where(cb.equal(workoutRoot.get("exid"), _fltExercise));
-
+                repoSize = workoutRepository.countByExid(exerciseRepository.findById(Long.valueOf(_fltExercise)).orElse(null));
             }
+        };
+
+
+        // Pagination start
+        Integer currentPage = 1;
+        if(page.isPresent()) currentPage = page.get();
+        if(currentPage < 1) currentPage = 1;
+
+        Long pageSize = helper.paginationPageSize();
+        Long pageLinksCount = helper.paginationRelativeLinksCount();
+
+
+        Long lastPage =( repoSize / pageSize ) + 1;
+        if((repoSize % pageSize) == 0) lastPage -= 1;
+        if(currentPage > lastPage) currentPage = Math.toIntExact(lastPage);
+
+        Long firstForPage = currentPage - pageLinksCount;
+        Long lastForPage = currentPage + pageLinksCount;
+
+        if(firstForPage < 1) {
+            lastForPage += 1-firstForPage;
+            firstForPage = 1l;
+        };
+
+        if(lastForPage > lastPage) {
+            firstForPage -= lastForPage - lastPage;
+            lastForPage = lastPage;
         }
+
+        if(firstForPage < 1) firstForPage = 1l;
+
+        Long prevGroupPage = currentPage - ((helper.paginationRelativeLinksCount() * 2) + 1);
+        Long nextGroupPage = currentPage + ((helper.paginationRelativeLinksCount() * 2) + 1);
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("lastPage", lastPage);
+        model.addAttribute("firstForPage", firstForPage);
+        model.addAttribute("lastForPage", lastForPage);
+        model.addAttribute("prevGroupPage", prevGroupPage);
+        model.addAttribute("nextGroupPage", nextGroupPage);
+
+        // Pagination end
+
+
+
 
         Integer _srtDate = 0;
         if(srtDate.isPresent() && srtDate.get() == 1) _srtDate = 1;
@@ -89,7 +134,10 @@ public class WorkoutController {
             }
 
 
+
         TypedQuery<Workout> query = entityManager.createQuery(cq);
+        query.setFirstResult((int) ((currentPage - 1) * pageSize));
+        query.setMaxResults(Math.toIntExact(pageSize));
         List<Workout> workouts = query.getResultList();
 
         //Should be deleted
@@ -102,6 +150,9 @@ public class WorkoutController {
         model.addAttribute("fltExercise", _fltExercise);
         model.addAttribute("workouts", workouts);
         model.addAttribute("usedExercises", usedExercises);
+
+        // Temporary log
+        System.out.println("Workout controller. Repo size:" + repoSize);
 
         return "workouts/index";
     }
