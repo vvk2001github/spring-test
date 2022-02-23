@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
     <th:block th:replace="layout/navbar::pageTitle"></th:block>
     <title>Admin</title>
 </head>
 <body>
     <div th:replace="layout/navbar::navigation"></div>
     <div class="container-fluid mt-2">
+
+
+        <div th:if="${success}" class="row">
+            <div class="col-8 mx-auto">
+                <div class="alert alert-success  alert-dismissible  fade show" role="alert">
+                    <strong th:text="${success}">A simple warning alert—check it out!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-7"></div>
+            <div class="col-1 text-end">
+                <button type="button" class="btn btn-primary" role="button" id="createUser" data-bs-toggle="modal" data-bs-target="#createUserForm"><i class="bi bi-plus-square"></i></button></div>
+        </div>
+
         <div class="row">
             <div class="col-8 mx-auto">
                 <table class="table table-hover table-sm">
@@ -36,5 +57,57 @@
                 </table>
             </div>
         </div>
+
     </div>
+
+
+
+<!-- Modal window -->
+    <div class="modal fade" id="createUserForm" tabindex="-1" aria-labelledby="createUserFormLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUserFormLabel">New user</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="user-name" class="col-form-label">Username:</label>
+                            <input type="text" class="form-control" id="user-name">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="storeUser">Save user</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let token = $("meta[name='_csrf']").attr("content");
+        let headerToken = $("meta[name='_csrf_header']").attr("content");
+
+        $('#storeUser').click(function () {
+            username = $('#user-name').val();
+
+            console.log(username);
+
+            $.ajax({
+                type:'POST',
+                beforeSend: function(request) {
+                    request.setRequestHeader(headerToken, token);
+                },
+                url:/*[[@{/int/storeuser}]]*/ '/int/storeuser',
+                data:{username:username},
+                success: function () {
+                    window.location.href = "/admin/index";
+                }
+            });
+        })
+        /*]]>*/
+    </script>
 </body>

@@ -15,6 +15,8 @@ import com.pluralsight.conference.repository.WorkoutRepository;
 import com.pluralsight.conference.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,4 +93,19 @@ public class ApiController {
         }
 
     };
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = {"/api/storeuser", "/int/storeuser"}, method = RequestMethod.POST)
+    public MappingJacksonValue storeUser(Model model, @RequestParam String username) {
+        User user = new User();
+        user.setUsername(username);
+        User newUser = userRepository.save(user);
+
+        SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("exercises", "password");
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(newUser);
+        mappingJacksonValue.setFilters(filterProvider);
+
+        return mappingJacksonValue;
+    }
 }
