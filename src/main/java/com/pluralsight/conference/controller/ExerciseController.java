@@ -104,7 +104,7 @@ public class ExerciseController {
     }
 
     @RequestMapping(value="/store", method=RequestMethod.POST)
-    public String store(@Valid @ModelAttribute Exercise exercise, BindingResult br, Model model, RedirectAttributes redirectAttrs) {
+    public String store(@Valid @ModelAttribute Exercise exercise, BindingResult br, RedirectAttributes redirectAttrs) {
         
         if(br.hasErrors())  
         {  

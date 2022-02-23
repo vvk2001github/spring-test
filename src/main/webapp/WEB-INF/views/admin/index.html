@@ -3,14 +3,26 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-    <meta th:name="_csrf" th:content="${_csrf.token}"/>
-    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
     <th:block th:replace="layout/navbar::pageTitle"></th:block>
     <title>Admin</title>
 </head>
 <body>
     <div th:replace="layout/navbar::navigation"></div>
     <div class="container-fluid mt-2">
+
+        <div th:if="${errors}" class="row">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div th:text="${success}">A simple warning alert—check it out!</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="row">
+            <div class="alert alert-success  alert-dismissible  fade show" role="alert">
+                <strong th:text="${success}">A simple warning alert—check it out!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-7"></div>
@@ -61,10 +73,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="createUserSubmitForm" method="post" th:action="@{/admin/storeuser}">
                         <div class="mb-3">
-                            <label for="user-name" class="col-form-label">Username:</label>
-                            <input type="text" class="form-control" id="user-name">
+                            <label for="username" class="col-form-label">Username:</label>
+                            <input type="text" class="form-control" id="username" name="username">
                         </div>
                     </form>
                 </div>
@@ -87,6 +99,9 @@
                 <div class="modal-body">
                     <p id="deleteUserFormText">Modal body text goes here.</p>
                 </div>
+                <form id="deleteUserSubmitForm" method="post" th:action="@{/admin/deleteuser}">
+                    <input type="hidden" name="userid" id="userid">
+                </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="confirmDeleteUser">Delete user</button>
@@ -98,23 +113,9 @@
 
     <script th:inline="javascript">
         /*<![CDATA[*/
-        let token = $("meta[name='_csrf']").attr("content");
-        let headerToken = $("meta[name='_csrf_header']").attr("content");
 
         $('#storeUser').click(function () {
-            username = $('#user-name').val();
-
-            $.ajax({
-                type:'POST',
-                beforeSend: function(request) {
-                    request.setRequestHeader(headerToken, token);
-                },
-                url:/*[[@{/int/storeuser}]]*/ '/int/storeuser',
-                data:{username:username},
-                success: function () {
-                    window.location.href = "/admin/index";
-                }
-            });
+            $('#createUserSubmitForm').submit();
         })
 
         $('a[id^="deleteUser"]').click(function (e) {
@@ -122,24 +123,12 @@
             msg = "Are you sure you want to delete the user: <b>" + $(this).data("username") + "</b>?";
             $('#deleteUserFormText').html(msg);
             let deleteUserModal = new bootstrap.Modal(document.getElementById('deleteUserForm'), {});
-            $('#confirmDeleteUser').data("userid", $(this).data("id"));
+            $('#userid').val($(this).data("id"));
             deleteUserModal.toggle();
         });
 
         $('#confirmDeleteUser').click(function (e) {
-            let userid = $(this).data("userid");
-
-            $.ajax({
-                type:'POST',
-                beforeSend: function(request) {
-                    request.setRequestHeader(headerToken, token);
-                },
-                url:/*[[@{/int/deleteuser}]]*/ '/int/deleteuser',
-                data:{userid:userid},
-                success: function () {
-                    window.location.href = "/admin/index";
-                }
-            });
+            $('#deleteUserSubmitForm').submit();
         });
         /*]]>*/
     </script>

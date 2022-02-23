@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,29 @@ public class AdminController {
         model.addAttribute("users", users);
         
         return "admin/index";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/storeuser", method = RequestMethod.POST)
+    public String storeUser(@RequestParam String username, RedirectAttributes redirectAttrs) {
+        User user = new User();
+        user.setUsername(username);
+        userRepository.save(user);
+        redirectAttrs.addFlashAttribute("success", "User successfully created");
+        return "redirect:/admin/index";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "deleteuser", method = RequestMethod.POST)
+    public String deleteUser(@RequestParam Integer userid, RedirectAttributes redirectAttrs) {
+        Optional<User> user = userRepository.findById(Long.valueOf(userid));
+        if(user.isPresent()) {
+            userRepository.delete(user.get());
+            redirectAttrs.addFlashAttribute("success", "User successfully deleted!");
+        } else {
+            redirectAttrs.addFlashAttribute("error", "User not found.");
+        }
+        return "redirect:/admin/index";
     }
     
 }
