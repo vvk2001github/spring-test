@@ -111,6 +111,8 @@ public class WorkoutController {
         Long prevGroupPage = currentPage - ((helper.paginationRelativeLinksCount() * 2) + 1);
         Long nextGroupPage = currentPage + ((helper.paginationRelativeLinksCount() * 2) + 1);
 
+        if(currentPage < 1) currentPage = 1;
+
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("firstForPage", firstForPage);
