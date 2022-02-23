@@ -95,6 +95,19 @@ public class ApiController {
     };
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = {"/api/deleteuser", "/int/deleteuser"}, method = RequestMethod.POST)
+    public String deleteUser(Model model, @RequestParam Integer userid) {
+        Optional<User> user = userRepository.findById(Long.valueOf(userid));
+        if(user.isPresent()) {
+            userRepository.delete(user.get());
+            model.addAttribute("success", "User successfully deleted!");
+        } else {
+            model.addAttribute("error", "User not found.");
+        }
+        return "{'status':'deleted'}";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/api/storeuser", "/int/storeuser"}, method = RequestMethod.POST)
     public MappingJacksonValue storeUser(Model model, @RequestParam String username) {
         User user = new User();
