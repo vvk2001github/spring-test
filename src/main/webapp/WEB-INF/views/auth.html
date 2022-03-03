@@ -60,6 +60,12 @@
             </div>
         </div>
 
+        <div class="row justify-content-center align-items-center text-center">
+            <div class="col-md-6">
+                <a class="btn btn-primary" th:href="@{/oauth2/authorization/facebook}">Login with Facebook</a>
+            </div>
+        </div>
+
         <div th:if="${param.logout}" id="logout-row" class="row justify-content-center align-items-center">
             <div id="logout-column" class="col-md-6">
                 <div class="alert alert-info alert-dismissible fade show" role="alert">

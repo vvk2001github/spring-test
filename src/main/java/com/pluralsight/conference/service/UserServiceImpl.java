@@ -1,5 +1,6 @@
 package com.pluralsight.conference.service;
 
+import com.pluralsight.conference.helpers.Provider;
 import com.pluralsight.conference.model.User;
 import com.pluralsight.conference.repository.UserRepository;
 
@@ -54,5 +55,16 @@ public class UserServiceImpl implements UserDetailsService {
             }
         }
         return null;
+    }
+
+    public void processOAuthPostLogin(String username) {
+        User existUser = userRepository.findFirstByUsername(username);
+        if (existUser == null) {
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setProvider(Provider.FACEBOOK);
+
+            userRepository.save(newUser);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.pluralsight.conference.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pluralsight.conference.helpers.Provider;
 
 import java.util.List;
 import javax.persistence.*;
@@ -19,6 +20,9 @@ public class User {
     private String username;
 
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Provider provider = Provider.LOCAL;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "userid")
@@ -54,5 +58,13 @@ public class User {
 
     public List<Exercise> getExercises() {
         return this.exercises;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 }
