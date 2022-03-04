@@ -57,12 +57,12 @@ public class UserServiceImpl implements UserDetailsService {
         return null;
     }
 
-    public void processOAuthPostLogin(String username) {
+    public void processOAuthPostLogin(String username, Provider loginProvider) {
         User existUser = userRepository.findFirstByUsername(username);
         if (existUser == null) {
             User newUser = new User();
             newUser.setUsername(username);
-            newUser.setProvider(Provider.FACEBOOK);
+            newUser.setProvider(loginProvider);
 
             userRepository.save(newUser);
         }

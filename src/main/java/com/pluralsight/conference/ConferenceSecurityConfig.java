@@ -71,7 +71,7 @@ public class ConferenceSecurityConfig  {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/css/**", "/", "/auth/**", "/language", "/oauth2/authorization/facebook").permitAll()
+                    .antMatchers("/js/**", "/css/**", "/", "/auth/**", "/language", "/oauth2/authorization/facebook").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
@@ -85,18 +85,7 @@ public class ConferenceSecurityConfig  {
                     .and().rememberMe().key("uniqueAndSecret")
                     .and()
                     .oauth2Login().defaultSuccessUrl("/home")
-                    .userInfoEndpoint().userService(oauth2UserService)
-                    .and()
-                    .successHandler(new AuthenticationSuccessHandler() {
-                        @Override
-                        public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-
-                            CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-                            userService.processOAuthPostLogin(oAuth2User.getName());
-                            RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-                            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/home");
-                        }
-                    });
+                    .userInfoEndpoint().userService(oauth2UserService);
         }
     }
 
